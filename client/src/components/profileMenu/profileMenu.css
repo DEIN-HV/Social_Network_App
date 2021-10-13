@@ -1,0 +1,46 @@
+.profileMenuList {
+    position: absolute;
+    padding: 10px 10px;
+    top: 40px;
+    right: 20px;
+    width: 250px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.profileMenuList:focus-visible {
+    outline: none;
+}
+
+li {
+    margin-bottom: 0;
+}
+
+.profileMenuListItem {
+    padding: 10px 5px;
+}
+
+.profileMenuListItem:hover {
+    background-color: rgb(235, 235, 235);
+    padding: 10px 5px;
+    border-radius: 5px;
+}
+
+.profileMenuListItemWrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+.hr {
+    margin-bottom: 10px;
+}
+
+.profileMenuListIcon {
+    margin-right: 10px;
+}
+
+.profileMenuListText {
+    margin-left: 10px;
+}

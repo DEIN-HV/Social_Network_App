@@ -52,6 +52,10 @@ const UserSchema = new mongoose.Schema(
             type: String,
             max: 50,
         },
+        workAt: {
+            type: String,
+            max: 50,
+        },
         relationship: {
             type: Number,
             enum: [1, 2, 3],

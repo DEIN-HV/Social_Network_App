@@ -1,0 +1,17 @@
+.sideBarFriendListItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.friendListName {
+    margin-left: 15px;
+    font-size: 15px;
+}
+
+.friendListAvt {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    object-fit: cover;
+}

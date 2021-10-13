@@ -1,0 +1,43 @@
+.profileInfo {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+}
+
+.profileInfoTop {
+    margin-bottom: 20px;
+}
+
+.userInfoTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.userInfo {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.userInfoIcon {
+    color: rgb(146, 146, 146);
+}
+
+.userInfoText {
+    color: rgb(70, 70, 70);
+    margin-left: 10px;
+}
+
+.profileInfoCloseFriend {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profileInfoCloseFriendImg {
+    width: 100px;
+    height: 100px;
+    margin: 2px;
+    object-fit: cover;
+}
