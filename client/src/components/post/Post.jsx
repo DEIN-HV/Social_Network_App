@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MoreVert } from "@material-ui/icons";
 import './post.css'
 import axios from 'axios';
 import { format } from 'timeago.js';
 import { Link } from "react-router-dom";
 import { ThumbUpOutlined, ThumbUpRounded, FavoriteRounded, FavoriteBorderOutlined } from "@material-ui/icons";
+import { AuthContext } from '../../context/authContext/AuthContext';
 // import { Users } from '../../dummyData';
 
-export const Post = ({ post, user }) => {
-    const [like, setLike] = useState(post.likes.length);
+export const Post = ({ post }) => {
     const [isLiked, setIsLiked] = useState(false);
+    const [like, setLike] = useState(post.likes.length);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const [postUser, setPostUser] = useState({});
+
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         setIsLiked(post.likes.includes(user._id));
@@ -23,7 +26,7 @@ export const Post = ({ post, user }) => {
         } catch (error) {
             console.log(error)
         }
-        setLike(isLiked ? like - 1 : like + 1);
+        // setLike(isLiked ? like - 1 : like + 1);
         setIsLiked(!isLiked);
     }
 
@@ -37,11 +40,11 @@ export const Post = ({ post, user }) => {
             }
         }
         fetchUser();
+        setLike(post.likes.includes(user._id) ? like - 1 : like)
     }, []);
 
-    console.log(postUser);
-    console.log(post);
-    console.log(post.likes.length)
+    console.log('like', isLiked)
+    console.log('like', like)
 
     return (
         <div className="post">
@@ -95,8 +98,13 @@ export const Post = ({ post, user }) => {
                                 alt=""
                             />
                             : <FavoriteBorderOutlined style={{ color: "rgb(213 213 213)" }} className="likeIcon" onClick={handleLike} />}
-                        {post.likes.length !== 0 &&
-                            <span className="countLike">{like} peoples likes this</span>}
+                        {(like > 0 || isLiked == true) &&
+                            <span className="countLike">
+                                {isLiked ? `You ${like ? "and " : ""}` : ""}
+                                {like ? `${like} ${like == 1 ? "people" : "peoples"} ` : ""}
+                                liked this
+                            </span>}
+
                     </div>
                     <div className="postBottomRight">
                         <span className="comments">{post.comment} comments</span>
