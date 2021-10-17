@@ -9,7 +9,6 @@ import { ProfilePicture } from '../profilePicture/ProfilePicture';
 export const Topbar = () => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user } = useContext(AuthContext);
-    console.log(user)
 
     const handleLogout = () => {
         console.log("log out")

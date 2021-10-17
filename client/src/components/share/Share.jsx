@@ -17,17 +17,45 @@ export const Share = () => {
     const [file, setFile] = useState(null);
     const descRef = useRef(null);
 
-    const handleShare = async () => {
-        const share = {
+    const handlePost = async (e) => {
+        e.preventDefault();
+        const newPost = {
             userId: user._id,
             desc: descRef.current.value,
         }
+        console.log(newPost)
+        console.log(file)
+
+        if (file) {
+            const newForm = new FormData();
+            const fileName = Date.now() + file.name;
+            newPost.img = "post/" + fileName;
+            newForm.append("name", fileName);
+            newForm.append("type", "post");
+            newForm.append("file", file);
+            console.log(newForm)
+            try {
+                //upload image
+                await axios.post("/upload", newForm);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
         try {
-            const post = await axios.post("/posts", share)
+            await axios.post("/posts", newPost);
+            window.location.reload();
         } catch (error) {
             console.log(error)
         }
     }
+
+    const handleSetFile = (e) => {
+        setFile(e.target.files[0]);
+        console.log(e.target.files[0])
+    }
+
+
 
     return (
         <div className="share">
@@ -43,7 +71,7 @@ export const Share = () => {
                 </div>
 
                 <hr className="shareHr" />
-                <form className="shareBottom" onSubmit={handleShare}>
+                <form className="shareBottom" onSubmit={handlePost}>
                     <div className="shareOptions">
                         <label htmlFor="file" className="shareOption">
                             <PermMedia htmlColor="tomato" className="shareOptionIcon" />
@@ -52,9 +80,10 @@ export const Share = () => {
                             </span>
                             <input
                                 style={{ display: 'none' }}
-                                type="file" id="file"
+                                type="file"
+                                id="file"
                                 accept=".png, .jpeg, .jpg"
-                                onClick={(e) => setFile(e.target.files[0])} />
+                                onChange={handleSetFile} />
                         </label>
                         <div className="shareOption">
                             <Label htmlColor="blue" className="shareOptionIcon" />

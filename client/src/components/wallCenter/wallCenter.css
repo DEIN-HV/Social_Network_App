@@ -1,0 +1,59 @@
+.wallCenter {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.wallCenterLinks {
+    display: flex;
+    justify-content: start;
+    padding-left: 20px;
+}
+
+.wallCenterLink {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    color: rgb(88, 88, 88);
+    font-size: 20px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+
+.wallCenterButtons {
+    display: flex;
+    justify-content: end;
+    padding-right: 20px;
+}
+
+.wallCenterButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    background: rgb(230, 230, 230);
+    color: rgb(88, 88, 88);
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+
+.active {
+    background: #1877f2;
+    color: white;
+}
+
+.wallCenterButtonIcon {
+    margin-right: 5px;
+}
+
+.wallCenterButton:focus {
+    outline: none;
+}

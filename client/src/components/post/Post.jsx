@@ -43,9 +43,6 @@ export const Post = ({ post }) => {
         setLike(post.likes.includes(user._id) ? like - 1 : like)
     }, []);
 
-    console.log('like', isLiked)
-    console.log('like', like)
-
     return (
         <div className="post">
             <div className="postWrapper">
@@ -72,9 +69,9 @@ export const Post = ({ post }) => {
                 </div>
                 <div className="postCenter">
                     <span className="postText">{post.desc}</span>
-                    {post.photo &&
+                    {post.img &&
                         <img
-                            src={PF + post.photo}
+                            src={PF + post.img}
                             alt=""
                             className="postImg"
                         />}

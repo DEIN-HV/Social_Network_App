@@ -7,13 +7,13 @@
 }
 
 .profileInfoTop {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .userInfoTitle {
     font-size: 20px;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .userInfo {
@@ -28,16 +28,4 @@
 .userInfoText {
     color: rgb(70, 70, 70);
     margin-left: 10px;
-}
-
-.profileInfoCloseFriend {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.profileInfoCloseFriendImg {
-    width: 100px;
-    height: 100px;
-    margin: 2px;
-    object-fit: cover;
 }

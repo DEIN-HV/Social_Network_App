@@ -4,6 +4,7 @@
 }
 
 .wallTop {
+    margin-bottom: 20px;
 }
 
 .coverImg {
@@ -17,7 +18,6 @@
     flex-direction: column;
     align-items: center;
     margin-top: -150px;
-    margin-bottom: 20px;
 }
 
 .profileImg {

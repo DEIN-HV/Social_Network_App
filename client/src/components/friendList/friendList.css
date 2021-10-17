@@ -1,0 +1,14 @@
+.friendList {
+}
+
+.profileInfoCloseFriend {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profileInfoCloseFriendImg {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    object-fit: cover;
+}

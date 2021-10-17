@@ -6,6 +6,8 @@ import { ProfileInfo } from '../profileInfo/ProfileInfo';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './profileWall.css';
+import { WallCenter } from '../wallCenter/WallCenter';
+import { Divider } from "@material-ui/core"
 
 export const ProfileWall = () => {
     const { id } = useParams();
@@ -38,10 +40,6 @@ export const ProfileWall = () => {
             console.log(error)
         }
     }
-
-    console.log(posts);
-    console.log(user);
-
     return (
         <div className="wall">
             <div className="wallWrapper">
@@ -53,9 +51,6 @@ export const ProfileWall = () => {
                         alt=""
                         className="coverImg"
                     />
-
-
-
                     <div className="wallTopInfo">
                         <img
                             src={user.profilePicture
@@ -71,10 +66,10 @@ export const ProfileWall = () => {
                         <span className="profileSlogan">
                             {user.desc}
                         </span>
-
                     </div>
                 </div>
-
+                <Divider />
+                <WallCenter />
                 <div className="wallBottom">
                     <div className="wallBottomLeft">
                         <ProfileInfo user={user} />

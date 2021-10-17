@@ -15,7 +15,9 @@ export const Feed = () => {
         const fetchPost = async () => {
             try {
                 const res = await axios.get(`posts/timeline/${user._id}`);
-                setPosts(res.data);
+                setPosts(res.data.sort((a, b) => {
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                }));
             } catch (error) {
                 console.log(error);
             }

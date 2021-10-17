@@ -1,8 +1,9 @@
 import React from 'react';
 import './profileInfo.css';
-import { Users } from '../../dummyData';
+
 import { CloseFriend } from '../closeFriend/CloseFriend';
 import { LocationOn, Home, Work } from '@material-ui/icons';
+import { FriendList } from "../friendList/FriendList"
 
 export const ProfileInfo = ({ user }) => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -25,18 +26,7 @@ export const ProfileInfo = ({ user }) => {
                     <span className="userInfoText">Work at <b>{user.workAt}</b></span>
                 </div>
             </div>
-
-            <div className="profileInfoBottom">
-                <div className="userInfoTitle">Close Friends</div>
-                <div className="profileInfoCloseFriend">
-                    {Users.map((user) => (
-                        <img src={PF + user.profilePicture}
-                            alt={user.username}
-                            className="profileInfoCloseFriendImg"
-                        />
-                    ))}
-                </div>
-            </div>
+            <FriendList user={user} />
 
         </div>
     )

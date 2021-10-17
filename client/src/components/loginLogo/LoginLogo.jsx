@@ -5,7 +5,7 @@ export const LoginLogo = () => {
     return (
         <div className="loginLogo">
             <div className="loginLogoWrapper">
-                <img src={`${PF}/logo.png`}
+                <img src={`${PF}logo.png`}
                     className="logoImgLogin" />
                 <h3 className="logoTextLogin">Travel Blog</h3>
             </div>
