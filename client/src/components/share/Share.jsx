@@ -1,115 +1,66 @@
-import React, { useContext, useRef, useState } from 'react';
-import './share.css';
 import {
-    PermMedia,
-    Label,
-    Room,
-    EmojiEmotions,
-    Cancel,
+    PhotoLibrary, EmojiEmotions, Room, VideoCall
 } from "@material-ui/icons";
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../context/authContext/AuthContext';
-import axios from "axios";
-import { ProfilePicture } from "../profilePicture/ProfilePicture"
+import { ModalShare } from '../modalShare/ModalShare';
+import { ProfilePicture } from "../profilePicture/ProfilePicture";
+import { Link } from "react-router-dom";
+import './share.css';
 
 export const Share = () => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user } = useContext(AuthContext);
-    const [file, setFile] = useState(null);
-    const descRef = useRef(null);
 
-    const handlePost = async (e) => {
-        e.preventDefault();
-        const newPost = {
-            userId: user._id,
-            desc: descRef.current.value,
-        }
-        console.log(newPost)
-        console.log(file)
-
-        if (file) {
-            const newForm = new FormData();
-            const fileName = Date.now() + file.name;
-            newPost.img = "post/" + fileName;
-            newForm.append("name", fileName);
-            newForm.append("type", "post");
-            newForm.append("file", file);
-            console.log(newForm)
-            try {
-                //upload image
-                await axios.post("/upload", newForm);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        try {
-            await axios.post("/posts", newPost);
-            window.location.reload();
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleSetFile = (e) => {
-        setFile(e.target.files[0]);
-        console.log(e.target.files[0])
-    }
-
-
+    //open modal
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <div className="share">
             <div className="shareWrapper">
                 <div className="shareTop">
-                    <ProfilePicture user={user} size="50px" />
+                    <Link to={`/profile/${user._id}`} className="link">
+                        <ProfilePicture user={user} size="50px" />
+                    </Link>
                     <input
                         type="text"
                         className="shareInput"
-                        placeholder={`What's in your mind, ${user.username}`}
-                        ref={descRef}
-                    />
+                        placeholder={`What's on your mind, ${user.username}`}
+                        onClick={handleOpen} />
                 </div>
 
                 <hr className="shareHr" />
-                <form className="shareBottom" onSubmit={handlePost}>
-                    <div className="shareOptions">
-                        <label htmlFor="file" className="shareOption">
-                            <PermMedia htmlColor="tomato" className="shareOptionIcon" />
-                            <span className="shareOptionText">
-                                Photo or Video
-                            </span>
-                            <input
+                <div className="shareBottom">
+                    <label htmlFor="file" className="shareOption">
+                        <VideoCall htmlColor="tomato" className="shareOptionIcon" />
+                        <span className="shareOptionText">
+                            Live video
+                        </span>
+                        {/* <input
                                 style={{ display: 'none' }}
                                 type="file"
                                 id="file"
                                 accept=".png, .jpeg, .jpg"
-                                onChange={handleSetFile} />
-                        </label>
-                        <div className="shareOption">
-                            <Label htmlColor="blue" className="shareOptionIcon" />
-                            <span className="shareOptionText">
-                                Tag
-                            </span>
-                        </div>
-                        <div className="shareOption">
-                            <Room htmlColor="green" className="shareOptionIcon" />
-                            <span className="shareOptionText">
-                                Location
-                            </span>
-                        </div>
-                        <div className="shareOption">
-                            <EmojiEmotions htmlColor="goldenrod" className="shareOptionIcon" />
-                            <span className="shareOptionText">
-                                Feeling
-                            </span>
-                        </div>
+                                onChange={handleSetFile} /> */}
+                    </label>
+                    <div className="shareOption">
+                        <PhotoLibrary htmlColor="blue" className="shareOptionIcon" />
+                        <span className="shareOptionText">
+                            Photo/Video
+                        </span>
                     </div>
-                    <button type="submit" className="shareButton">
-                        Share
-                    </button>
-                </form>
-
+                    <div className="shareOption subIcon">
+                        <EmojiEmotions htmlColor="green" className="shareOptionIcon" />
+                        <span className="shareOptionText">
+                            Felling/Activity
+                        </span>
+                    </div>
+                </div>
             </div>
+
+            <ModalShare open={open} onHandleClose={handleClose} />
         </div>
     )
 }

@@ -10,10 +10,6 @@ export const Topbar = () => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user } = useContext(AuthContext);
 
-    const handleLogout = () => {
-        console.log("log out")
-    }
-
     return (
         <div className="topbarContainer">
             <div className="topbarLeft">
@@ -45,10 +41,12 @@ export const Topbar = () => {
                         <Person />
                         <span className="topbarIconBadge">1</span>
                     </div>
-                    <div className="topbarIconItem">
-                        <Chat />
-                        <span className="topbarIconBadge">2</span>
-                    </div>
+                    <Link className="iconLink" to="/messenger">
+                        <div className="topbarIconItem">
+                            <Chat />
+                            <span className="topbarIconBadge">2</span>
+                        </div>
+                    </Link>
                     <div className="topbarIconItem">
                         <Notifications />
                         <span className="topbarIconBadge">3</span>
@@ -56,7 +54,7 @@ export const Topbar = () => {
                 </div>
 
                 <div className="proFile">
-                    <Link to={`/profile/${user._id}`} className="link">
+                    <Link to={`/profile/${user._id}`} className="topbarProfileImg link">
                         <ProfilePicture user={user} size="40px" />
                     </Link>
                     <ProfileMenu user={user} />

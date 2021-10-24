@@ -1,13 +1,12 @@
 
-import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, Modal, Typography } from '@material-ui/core';
-import { ArrowDropDown, Settings, ExitToApp } from '@material-ui/icons';
-import { ListItemButton } from "@mui/material"
-import "./profileMenu.css";
-import { ProfilePicture } from '../profilePicture/ProfilePicture';
-import { AuthContext } from '../../context/authContext/AuthContext';
-import { Logout } from '../../context/authContext/AuthAction';
+import { Divider, Modal } from '@material-ui/core';
+import { ArrowDropDown, ExitToApp, Settings } from '@material-ui/icons';
 import { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
+import { Logout } from '../../context/authContext/AuthAction';
+import { AuthContext } from '../../context/authContext/AuthContext';
+import { ProfilePicture } from '../profilePicture/ProfilePicture';
+import "./profileMenu.css";
 
 export const ProfileMenu = ({ user }) => {
     const { dispatch } = useContext(AuthContext)

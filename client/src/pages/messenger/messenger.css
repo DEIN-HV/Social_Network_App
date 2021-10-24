@@ -1,0 +1,78 @@
+.messenger {
+    display: flex;
+}
+
+.chatMenu {
+    flex: 3;
+    height: calc(100vh - 50px);
+    overflow-y: scroll;
+    position: sticky;
+}
+
+.chatBox {
+    flex: 6;
+}
+.chatFriendInfo {
+    flex: 3;
+}
+
+.chatMenuWrapper {
+    margin: 20px;
+}
+
+.chatBoxWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.chatBoxTop {
+    height: calc(100vh - 110px);
+    overflow-y: scroll;
+    position: sticky;
+}
+
+.chatBoxBottom {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chatMessageInput {
+    border: none;
+    background: #e7e7e7;
+    border-radius: 25px;
+    width: 75%;
+    padding: 10px;
+    margin: 0 10px;
+}
+
+.chatMessageInput {
+    outline: none;
+}
+
+.chatSubmitButton {
+    width: 70px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: teal;
+    color: white;
+}
+
+@media screen and (max-width: 576px) {
+    .chatFriendInfo {
+        display: none;
+    }
+
+    .chatMenu {
+        flex: 1;
+    }
+
+    .chatMenuWrapper {
+        margin: 5px;
+    }
+}

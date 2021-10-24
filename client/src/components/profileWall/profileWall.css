@@ -39,6 +39,9 @@
 }
 
 .wallBottom {
+}
+
+.wallBottomWrapper {
     display: flex;
     flex-wrap: wrap;
 }
@@ -49,4 +52,18 @@
 
 .wallBottomLeft {
     flex: 5;
+}
+
+@media screen and (max-width: 576px) {
+    .wallCenterLink {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .wallBottomRight {
+        height: calc(100vh - 50px);
+        overflow-y: scroll;
+        position: sticky;
+    }
 }

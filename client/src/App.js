@@ -6,6 +6,7 @@ import "./app.css"
 import { AuthContext } from "./context/authContext/AuthContext";
 import { useContext } from "react";
 import { Register } from "./pages/register/Register";
+import { Messenger } from "./pages/messenger/Messenger";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -24,7 +25,13 @@ function App() {
             {user ? <Redirect to="/" /> : <Register />}
           </Route>
           <Route path="/profile/:id">
-            <Profile />
+            {user ? <Profile /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/messenger/:id">
+            {user ? <Messenger /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/messenger">
+            {user ? <Messenger /> : <Redirect to="/login" />}
           </Route>
         </Switch>
       </Router>

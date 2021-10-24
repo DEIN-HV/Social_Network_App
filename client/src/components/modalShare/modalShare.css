@@ -1,0 +1,74 @@
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background-color: white;
+}
+
+.modalShare {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+}
+
+.modal:focus {
+    outline: none;
+}
+
+.shareImgContanier {
+    position: relative;
+    padding: 10px 0;
+}
+
+.addPhotoContainer {
+    width: 420px;
+    height: 250px;
+    border: 1px solid rgb(150, 150, 150);
+    margin: 10px 0;
+
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+
+    border-radius: 10px;
+}
+
+.addPhotoContainerText {
+    position: absolute;
+    top: 50%;
+    font-size: 30px;
+    font-weight: 500;
+    color: rgb(77, 77, 77);
+}
+
+.addPhotoContainerIcon {
+    transform: scale(1.8);
+    margin-right: 15px;
+}
+
+.shareImg {
+    object-fit: cover;
+    border-radius: 10px;
+    width: 420px;
+}
+
+.cancelIcon {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    transform: scale(1.2);
+}
+
+@media screen and (max-width: 576px) {
+    .addPhotoContainer {
+        width: 350px;
+    }
+
+    .modalShare {
+        margin: 2px;
+    }
+}

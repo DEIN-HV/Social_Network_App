@@ -1,9 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Users } from '../../dummyData';
+import { FriendList } from '../friendList/FriendList';
 import './rightbar.css';
 
 export const Rightbar = () => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
     return (
         <div className="rightBar">
 
@@ -18,8 +21,8 @@ export const Rightbar = () => {
                     </span>
                 </div>
                 <img className="rightbarAd" src="https://media.istockphoto.com/photos/m-having-the-best-time-with-you-guys-picture-id1133362469?k=20&m=1133362469&s=612x612&w=0&h=OG6ws5XYoka77vTtK82dUqaldFAdJ8sqZmDJ9NSlUyo=" alt="" />
-                <h4 className="rightbarTitle">Online Friends</h4>
-                <ul className="rightbarFriendList">
+                <h3 className="rightbarTitle">Contacts</h3>
+                {/* <ul className="rightbarFriendList">
 
                     {Users.map((user) => (
                         <li key={user.id} className="rigthbarFriend">
@@ -34,10 +37,9 @@ export const Rightbar = () => {
                             <span className="rightbarUsername">{user.username}</span>
                         </li>
                     ))}
+                </ul> */}
 
-
-
-                </ul>
+                <FriendList />
             </div>
 
         </div>

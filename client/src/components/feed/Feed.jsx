@@ -29,7 +29,7 @@ export const Feed = () => {
         <div className="feed">
             <Share />
             {posts.map((post) => (
-                <Post key={post.id} post={post} />
+                <Post key={post._id} post={post} />
             ))}
         </div>
     )

@@ -1,17 +1,16 @@
-import React, { useContext, useRef, useState } from 'react';
-import { loginCall } from '../../apiCalls';
-import { AuthContext } from '../../context/authContext/AuthContext';
 import { CircularProgress } from "@material-ui/core";
-import './login.css';
+import React, { useContext, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { loginCall } from '../../apiCalls';
 import { LoginLogo } from '../../components/loginLogo/LoginLogo';
-import { Redirect, useHistory } from 'react-router-dom';
+import { AuthContext } from '../../context/authContext/AuthContext';
+import './login.css';
 
 export const Login = () => {
-    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const history = useHistory();
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { dispatch, user, isFetching } = useContext(AuthContext);
+    const { dispatch, isFetching } = useContext(AuthContext);
 
     const handleLogin = (e) => {
         e.preventDefault();

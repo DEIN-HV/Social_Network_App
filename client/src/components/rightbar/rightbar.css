@@ -1,5 +1,9 @@
-.rightbar {
+.rightBar {
     flex: 4;
+    height: calc(100vh - 50px);
+    overflow-y: scroll;
+    position: sticky;
+    margin-left: 20px;
 }
 
 .rightbarWrapper {
@@ -71,4 +75,10 @@
 
 .rightbarUsername {
     font-size: 15px;
+}
+
+@media screen and (max-width: 576px) {
+    .rightBar {
+        display: none;
+    }
 }

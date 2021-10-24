@@ -3,13 +3,26 @@ import './profileInfo.css';
 
 import { CloseFriend } from '../closeFriend/CloseFriend';
 import { LocationOn, Home, Work } from '@material-ui/icons';
-import { FriendList } from "../friendList/FriendList"
+import { PhotoList } from '../photoList/PhotoList';
+import { ProfilePicture } from '../profilePicture/ProfilePicture';
+import { Link } from 'react-router-dom';
 
-export const ProfileInfo = ({ user }) => {
+export const ProfileInfo = ({ user, hasPicture }) => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    if (!user) return ""
     return (
         <div className="profileInfo">
             <div className="profileInfoTop">
+
+                {hasPicture &&
+                    <Link className="link" to={`/profile/${user._id}`}>
+                        <div className="profileInfoProfilePicture">
+                            <ProfilePicture user={user} size="100px" />
+                            <div style={{ marginTop: 10 }} className="userInfoTitle">{user.username}</div>
+                        </div>
+                    </Link>
+                }
+
                 <div className="userInfoTitle">User Information</div>
 
                 <div className="userInfo">
@@ -26,8 +39,6 @@ export const ProfileInfo = ({ user }) => {
                     <span className="userInfoText">Work at <b>{user.workAt}</b></span>
                 </div>
             </div>
-            <FriendList user={user} />
-
         </div>
     )
 }

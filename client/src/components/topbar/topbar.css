@@ -111,9 +111,38 @@
 
 .link {
     text-decoration: none;
+    color: rgb(77, 77, 77);
+}
+
+.link:hover {
+    color: black;
+}
+
+.link:focus {
+    color: rgb(12, 12, 12);
+}
+
+.iconLink {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
 }
 
 .proFile {
     display: flex;
     align-items: center;
+}
+
+@media screen and (max-width: 576px) {
+    .topbarLinks,
+    .searchInput,
+    .logoText,
+    .topbarProfileImg {
+        display: none;
+    }
+}
+@media screen and (max-width: 768px) {
+    .topbarLinks,
+    .logoText {
+        display: none;
+    }
 }

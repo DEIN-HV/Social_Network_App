@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Posts, Users } from '../../dummyData';
 import { Post } from '../post/Post';
 import { Share } from '../share/Share';
 import { ProfileInfo } from '../profileInfo/ProfileInfo';
@@ -8,6 +7,7 @@ import axios from 'axios';
 import './profileWall.css';
 import { WallCenter } from '../wallCenter/WallCenter';
 import { Divider } from "@material-ui/core"
+import { PhotoList } from '../photoList/PhotoList';
 
 export const ProfileWall = () => {
     const { id } = useParams();
@@ -71,14 +71,19 @@ export const ProfileWall = () => {
                 <Divider />
                 <WallCenter />
                 <div className="wallBottom">
-                    <div className="wallBottomLeft">
-                        <ProfileInfo user={user} />
-                    </div>
-                    <div className="wallBottomRight">
-                        <Share />
-                        {posts.map((post) => (
-                            <Post key={post.id} post={post} />
-                        ))}
+                    <div className="wallBottomWrapper">
+                        <div className="wallBottomLeft">
+                            <>
+                                <ProfileInfo user={user} />
+                                {(posts.length > 0) && <PhotoList posts={posts} />}
+                            </>
+                        </div>
+                        <div className="wallBottomRight">
+                            <Share />
+                            {posts.map((post) => (
+                                <Post key={post.id} post={post} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

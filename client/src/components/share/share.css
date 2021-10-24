@@ -23,9 +23,13 @@
 }
 
 .shareInput {
+    /* border: 1px solid rgb(190, 190, 190); */
     border: none;
+    background: rgb(243, 243, 243);
     margin-left: 15px;
+    border-radius: 25px;
     width: 80%;
+    padding: 10px;
 }
 
 .shareInput:focus {
@@ -44,6 +48,7 @@
 
 .shareOptions {
     display: flex;
+    justify-content: space-between;
 }
 
 .shareOption {
@@ -66,4 +71,10 @@
     font-weight: 500;
     cursor: pointer;
     color: white;
+}
+
+@media screen and (max-width: 576px) {
+    .subIcon {
+        display: none;
+    }
 }

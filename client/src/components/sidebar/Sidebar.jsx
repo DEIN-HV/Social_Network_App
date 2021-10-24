@@ -1,18 +1,9 @@
-import React from 'react';
 import {
-    RssFeed,
-    Chat,
-    PlayCircleFilledOutlined,
-    Group,
-    Bookmark,
-    HelpOutline,
-    WorkOutline,
-    Event,
-    School,
+    Bookmark, Chat, Event, Group, HelpOutline, PlayCircleFilledOutlined, RssFeed, School, WorkOutline
 } from "@material-ui/icons";
+import React from 'react';
 import './sidebar.css';
-import { Users } from '../../dummyData';
-import { CloseFriend } from '../closeFriend/CloseFriend';
+import { Link } from "react-router-dom";
 
 export const Sidebar = () => {
     return (
@@ -23,10 +14,12 @@ export const Sidebar = () => {
                         <RssFeed className="sidebarIcon" />
                         <span className="sidebarListItemText">Feed</span>
                     </li>
-                    <li className="sidebarListItem">
+
+                    <Link to="/messenger" className="sidebarListItem link">
                         <Chat className="sidebarIcon" />
                         <span className="sidebarListItemText">Chats</span>
-                    </li>
+                    </Link>
+
                     <li className="sidebarListItem">
                         <PlayCircleFilledOutlined className="sidebarIcon" />
                         <span className="sidebarListItemText">Videos</span>
@@ -61,14 +54,12 @@ export const Sidebar = () => {
                     Show more
                 </button>
 
-                <hr className="sidebarHr" />
+                {/* <hr className="sidebarHr" /> */}
 
-                <ul className="sidebarFriendList">
+                {/* <ul className="sidebarFriendList">
 
-                    {Users.map((user) => (
-                        <CloseFriend key={user.id} user={user} />
-                    ))}
-                </ul>
+                    <FriendList />
+                </ul> */}
             </div>
         </div>
     )

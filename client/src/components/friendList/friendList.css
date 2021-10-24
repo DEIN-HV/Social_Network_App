@@ -1,9 +1,12 @@
 .friendList {
+    list-style: none;
 }
 
-.profileInfoCloseFriend {
+.friendListItem {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
 }
 
 .profileInfoCloseFriendImg {
@@ -11,4 +14,21 @@
     height: 100px;
     margin: 5px;
     object-fit: cover;
+}
+
+.rightbarOnline {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    left: 30px;
+    top: 18px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: rgb(79, 163, 0);
+}
+
+@media screen and (max-width: 576px) {
+    .friendListName {
+        display: none;
+    }
 }
