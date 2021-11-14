@@ -1,14 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Chat, Notifications, Person, Search, ArrowDropDown } from '@material-ui/icons';
 import './topbar.css'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ProfileMenu } from '../profileMenu/ProfileMenu';
 import { AuthContext } from '../../context/authContext/AuthContext'
 import { ProfilePicture } from '../profilePicture/ProfilePicture';
 
-export const Topbar = () => {
+export const Topbar = ({ searchValue, limit }) => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user } = useContext(AuthContext);
+    const history = useHistory();
+    const [value, setValue] = useState(searchValue)
+
+    const handleSearch = (e) => {
+        if (e.key === "Enter") {
+            history.push(`/search?username=${value}&_page=1&_limit=5`);
+        }
+    }
 
     return (
         <div className="topbarContainer">
@@ -27,8 +35,14 @@ export const Topbar = () => {
                     <input
                         type="text"
                         className="searchInput"
+                        name="searchInput"
                         placeholder="Search for friend, post or video"
+                        // ref={searchRef}
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        onKeyDown={handleSearch}
                     />
+                    {/* <input type="text" name="test" value={value} /> */}
                 </div>
             </div>
             <div className="topbarRight">
@@ -55,7 +69,7 @@ export const Topbar = () => {
 
                 <div className="proFile">
                     <Link to={`/profile/${user._id}`} className="topbarProfileImg link">
-                        <ProfilePicture user={user} size="40px" />
+                        <ProfilePicture profilePicture={user.profilePicture} size="40px" />
                     </Link>
                     <ProfileMenu user={user} />
                 </div>

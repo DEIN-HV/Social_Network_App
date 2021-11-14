@@ -9,6 +9,7 @@ import { Topbar } from "../../components/topbar/Topbar";
 import { AuthContext } from "../../context/authContext/AuthContext";
 import { io } from "socket.io-client";
 import "./messenger.css";
+import { GroupConversation } from "../../components/groupConversation/GroupConversation";
 
 
 export const Messenger = () => {
@@ -16,10 +17,14 @@ export const Messenger = () => {
     const [conversation, setConversation] = useState(null);
     const [messages, setMessages] = useState([]);
     const [arrivalMess, setArrivalMess] = useState(null);
+    const [groupConversations, setGroupConversations] = useState([]);
+    const [groupConversationMemberInfos, setGroupConversationMemberInfos] = useState([]);
     const messageRef = useRef();
     const scrollRef = useRef();
     const location = useLocation();
     const receiver = location.receiver;
+    const type = location.type;
+    const groupConversation = location.groupConversation;
 
     const socket = useRef();
 
@@ -28,23 +33,30 @@ export const Messenger = () => {
         socket.current = io("ws://localhost:8900");
         socket.current.on("getMessage", (newMessage) => {
             setArrivalMess(newMessage);
-        })
+        });
+        fetchGroupConversation();
     }, []);
 
-    //DISPLAY NEW MESS
+    //DISPLAY REAL TIME NEW MESS
     useEffect(() => {
         arrivalMess &&
-            conversation?.members.includes(arrivalMess.sender) &&
+            (type === 1 ? conversation : groupConversation)?.members.includes(arrivalMess.sender) &&
             setMessages([...messages, arrivalMess]);
     }, [arrivalMess, conversation]);
 
     useEffect(() => {
         fetchConversation();
+        setMessages([]);
     }, [receiver]);
 
     useEffect(() => {
+        fetchMemberInfoInGroupChat();
+        setMessages([]);
+    }, [groupConversation])
+
+    useEffect(() => {
         fetchMessages();
-    }, [conversation]);
+    }, [conversation, groupConversation]);
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -67,11 +79,22 @@ export const Messenger = () => {
         }
     }
 
+    //FETCH GROUP CONVERSATION 
+    const fetchGroupConversation = async () => {
+        try {
+            const res = await axios.get(`/conversations?type=2&userId=${user._id}`);
+            setGroupConversations(res.data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     //FETCH MESS
     const fetchMessages = async () => {
-        if (conversation) {
+        const chat = (type === 1 ? conversation : groupConversation)
+        if (chat) {
             try {
-                const res = await axios.get(`/messages/${conversation._id}`);
+                const res = await axios.get(`/messages/${chat._id}`);
                 setMessages(res.data);
             } catch (error) {
                 console.log(error);
@@ -87,7 +110,7 @@ export const Messenger = () => {
         if (text) {
             try {
                 const newMess = {
-                    conversationId: conversation._id,
+                    conversationId: type === 1 ? conversation._id : groupConversation._id,
                     sender: user._id,
                     text: text,
                 }
@@ -102,13 +125,42 @@ export const Messenger = () => {
         }
     }
 
+    //FETCH MEMBER INFO IN GROUP CHAT
+    const fetchMemberInfoInGroupChat = async () => {
+        try {
+            const memberInfos = await Promise.all(
+                groupConversation.members.map((member) => (
+                    axios.get("/users?userId=" + member)
+                ))
+            )
+            let infoArr = []
+            memberInfos.map(({ data }) => (
+                infoArr.push(
+                    {
+                        _id: data._id,
+                        profilePicture: data.profilePicture
+                    })
+            ));
+            setGroupConversationMemberInfos(infoArr)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <>
             <Topbar />
             <div className="messenger">
                 <div className="chatMenu">
                     <div className="chatMenuWrapper">
-                        <FriendList />
+                        <div className="chatMenuItem">
+                            <span className="chatMenuTitle">Contacts</span>
+                            <FriendList friendListType={1} />
+                        </div>
+                        <div className="chatMenuItem">
+                            <span className="chatMenuTitle">Group conversations</span>
+                            <GroupConversation groupConversations={groupConversations} />
+                        </div>
                     </div>
                 </div>
 
@@ -122,7 +174,9 @@ export const Messenger = () => {
                                             key={message._id}
                                             message={message}
                                             own={message.sender == user._id}
-                                            receiverInfo={receiver}
+                                            type={type}
+                                            receiverInfo={receiver ? receiver.profilePicture : receiver}
+                                            groupConversationMemberInfos={groupConversationMemberInfos}
                                         />
                                     </div>
                                 ))

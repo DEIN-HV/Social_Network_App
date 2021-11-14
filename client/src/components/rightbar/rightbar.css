@@ -34,7 +34,8 @@
 }
 
 .rightbarTitle {
-    margin-bottom: 20px;
+    /* margin-bottom: 10px; */
+    margin-left: 10px;
 }
 
 .rightbarFriendList {

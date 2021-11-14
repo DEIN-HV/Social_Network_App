@@ -1,34 +1,28 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { MoreVert } from "@material-ui/icons";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { AttachFile, EmojiEmotions, MoreVert, PermMedia } from "@material-ui/icons";
 import './post.css'
 import axios from 'axios';
 import { format } from 'timeago.js';
 import { Link } from "react-router-dom";
 import { ThumbUpOutlined, ThumbUpRounded, FavoriteRounded, FavoriteBorderOutlined } from "@material-ui/icons";
 import { AuthContext } from '../../context/authContext/AuthContext';
-// import { Users } from '../../dummyData';
+import { Comment } from '../comment/Comment';
 
 export const Post = ({ post }) => {
     const [isLiked, setIsLiked] = useState(false);
     const [like, setLike] = useState(post.likes.length);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const [postUser, setPostUser] = useState({});
+    const [isOpenComment, setIsOpenComment] = useState(true);
+    const [isOpenAllComment, setIsOpenAllComment] = useState(false);
+    const [comments, setComments] = useState([]);
+    const commentRef = useRef();
 
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
         setIsLiked(post.likes.includes(user._id));
-    }, [post.likes])
-
-    const handleLike = async () => {
-        try {
-            await axios.put(`/posts/${post._id}/like`, { userId: user._id });
-        } catch (error) {
-            console.log(error)
-        }
-        // setLike(isLiked ? like - 1 : like + 1);
-        setIsLiked(!isLiked);
-    }
+    }, [post.likes]);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -40,8 +34,52 @@ export const Post = ({ post }) => {
             }
         }
         fetchUser();
+        fetchComments();
         setLike(post.likes.includes(user._id) ? like - 1 : like)
     }, []);
+
+    // useEffect(() => {
+    //     fetchComments();
+    // }, [])
+
+    const fetchComments = async () => {
+        try {
+            const res = await axios.get("/comments/", {
+                params: {
+                    postId: post._id
+                }
+            });
+            setComments(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    const handleLike = async () => {
+        try {
+            await axios.put(`/posts/${post._id}/like`, { userId: user._id });
+        } catch (error) {
+            console.log(error)
+        }
+        // setLike(isLiked ? like - 1 : like + 1);
+        setIsLiked(!isLiked);
+    }
+
+    const handleComment = async (e) => {
+        e.preventDefault();
+        const newComment = {
+            postId: post._id,
+            userId: user._id,
+            text: commentRef.current.value,
+        }
+        try {
+            const res = await axios.post("/comments/", newComment);
+            setComments([...comments, res.data]);
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className="post">
@@ -104,9 +142,46 @@ export const Post = ({ post }) => {
 
                     </div>
                     <div className="postBottomRight">
-                        <span className="comments">{post.comment} comments</span>
+                        <span className="comments"
+                            onClick={() => setIsOpenComment(!isOpenComment)}>
+                            {comments.length > 0 && `${comments.length} comments`}
+                        </span>
                     </div>
                 </div>
+
+                {isOpenComment &&
+                    <div className="comments">
+                        <span className="linkShowAllComment" onClick={() => setIsOpenAllComment(!isOpenAllComment)}>
+                            {comments.length > 1 &&
+                                (isOpenAllComment ? "Less comment" : "All comments")}
+
+                        </span>
+                        <div className="commentsBox">
+                            {comments.map((comment, i) => {
+                                if (!isOpenAllComment) {
+                                    if (i == (comments.length - 1))
+                                        return <Comment comment={comment} />
+                                }
+                                else
+                                    return <Comment comment={comment} />
+
+                            })}
+                        </div>
+                        <form className="commentInputContainer" onSubmit={handleComment}>
+                            <PermMedia htmlColor="tomato" className="commentInputIcon" />
+                            <AttachFile htmlColor="blue" className="commentInputIcon" />
+                            <EmojiEmotions htmlColor="goldenrod" className="commentInputIcon" />
+                            <input
+                                className="commentInput"
+                                placeholder="write something..."
+                                ref={commentRef}
+                            ></input>
+                            <button className="commentSubmitButton" type="submit">
+                                Send
+                            </button>
+                        </form>
+                    </div>
+                }
             </div>
 
         </div>

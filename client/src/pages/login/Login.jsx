@@ -10,7 +10,7 @@ export const Login = () => {
     const history = useHistory();
     const emailRef = useRef();
     const passwordRef = useRef();
-    const { dispatch, isFetching } = useContext(AuthContext);
+    const { dispatch, isFetching, error, errorMessage } = useContext(AuthContext);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -47,6 +47,9 @@ export const Login = () => {
                                 ? <CircularProgress color="white" size="30px" />
                                 : "Login"}
                         </button>
+
+                        {error && <span className="errorMessage" >{errorMessage}</span>}
+
                         <span className="loginForgot">Forgot Password?</span>
                         <button className="loginRegisterButton" onClick={() => history.push("/register")}>
                             Create a new account

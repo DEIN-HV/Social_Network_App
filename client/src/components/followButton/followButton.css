@@ -1,0 +1,31 @@
+.followButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 100px;
+    padding: 0 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    background: rgb(230, 230, 230);
+    border: none;
+    cursor: pointer;
+}
+
+.followButtonText {
+    color: rgb(88, 88, 88);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.followButton.active {
+    background: #1877f2;
+}
+
+.active .followButtonText {
+    color: white;
+}
+
+.followButtonIcon {
+    margin-right: 5px;
+}

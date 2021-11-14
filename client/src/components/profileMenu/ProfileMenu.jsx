@@ -28,7 +28,7 @@ export const ProfileMenu = ({ user }) => {
                     <li className="profileMenuListItem">
                         <Link to={`/profile/${user._id}`} className="profileLink">
                             <div className="profileMenuListItemWrapper">
-                                <ProfilePicture user={user} size="50px" />
+                                <ProfilePicture profilePicture={user.profilePicture} size="50px" />
                                 <span className="profileMenuListText">
                                     See your info
                                 </span>

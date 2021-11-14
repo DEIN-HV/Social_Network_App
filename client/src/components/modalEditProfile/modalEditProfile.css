@@ -1,0 +1,94 @@
+.modalEdit {
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    height: auto;
+    width: 80%;
+    max-width: 500px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+}
+
+.modalEditProfile:focus {
+    outline: none;
+}
+
+.modalEditTop {
+    display: flex;
+    justify-content: center;
+}
+
+.modalEditTitle {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.editItem {
+    margin: 10px;
+}
+.editItemTop {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.editItemTitle {
+    font-weight: 600;
+}
+
+.editCoverPicture {
+    height: 200px;
+    width: 480px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.buttons {
+    display: flex;
+    justify-content: end;
+}
+
+.saveButton {
+    border: none;
+    padding: 7px;
+    width: 60px;
+    border-radius: 5px;
+    background-color: rgb(33, 80, 182);
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+    margin-right: 10px;
+}
+
+.cancelButton {
+    border: none;
+    padding: 7px;
+    width: 60px;
+    border-radius: 5px;
+    background-color: rgb(85, 85, 85);
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+}
+
+.fieldInput:focus {
+    outline: none;
+}
+
+@media screen and (max-width: 576px) {
+    .modalEdit {
+        margin: 0;
+    }
+
+    .editCoverPicture {
+        height: 200px;
+        width: 320px;
+    }
+}

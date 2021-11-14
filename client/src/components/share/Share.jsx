@@ -22,7 +22,7 @@ export const Share = () => {
             <div className="shareWrapper">
                 <div className="shareTop">
                     <Link to={`/profile/${user._id}`} className="link">
-                        <ProfilePicture user={user} size="50px" />
+                        <ProfilePicture profilePicture={user.profilePicture} size="50px" />
                     </Link>
                     <input
                         type="text"

@@ -15,11 +15,12 @@ router.put("/:id", async (req, res) => {
         }
 
         try {
-            const user = await User.findOneAndUpdate(
-                req.body.id,
+            const user = await User.findByIdAndUpdate(
+                req.body.userId,
                 {
                     $set: req.body,
-                }
+                },
+                { new: true }
             );
 
             return res.status(200).json(user);
@@ -66,6 +67,40 @@ router.get("/", async (req, res) => {
     }
 }
 );
+
+//SEARCH USER
+router.get("/search", async (req, res) => {
+    try {
+        const username = req.query.username;
+        const _page = req.query._page;
+        // const _limit = req.query._limit;
+        const _limit = 5
+        // console.log(_limit)
+        // console.log(_limit)
+        let user
+        if (_page) {
+            user = await User
+                .find({ username: { $regex: '.*' + username + '.*' } })
+                .limit(_limit)
+                .skip((_page - 1) * _limit)
+                .sort({
+                    username: 'asc'
+                })
+        }
+        else {
+            user = await User
+                .find({ username: { $regex: '.*' + username + '.*' } })
+                .sort({
+                    username: 'asc'
+                })
+        }
+        return res.status(200).json(user);
+    } catch (error) {
+        return res.status(400).json(error);
+    }
+}
+);
+
 
 //FOLLOW A USER
 router.put("/:id/follow", async (req, res) => {

@@ -17,7 +17,7 @@
 }
 
 .chatMenuWrapper {
-    margin: 20px;
+    margin: 10px;
 }
 
 .chatBoxWrapper {
@@ -61,6 +61,16 @@
     cursor: pointer;
     background-color: teal;
     color: white;
+}
+
+.chatMenuTitle {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(136, 136, 136);
+}
+
+.chatMenuItem {
+    margin-bottom: 20px;
 }
 
 @media screen and (max-width: 576px) {

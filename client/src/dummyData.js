@@ -1,3 +1,16 @@
+export const comments = [
+  {
+    id: 1,
+    userId: "615883766d7e16fa5be8a06e",
+    text: "First comment",
+    likes: [
+      "615883766d7e16fa5be8a06e",
+      "61588c0b7334c1c75b7395d4"
+    ],
+    createdAt: "2021-10-02T16:06:14.025+00:00"
+  }
+]
+
 export const Users = [
   {
     id: 1,

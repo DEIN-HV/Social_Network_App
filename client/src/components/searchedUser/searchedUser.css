@@ -1,0 +1,36 @@
+.searchedUser {
+    margin-bottom: 20px;
+}
+
+.seachedUserContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.searchedUserLeft {
+    display: flex;
+}
+
+.searchedUserRight {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.searchedUserInfo {
+    margin-left: 20px;
+}
+
+.searchedMainText {
+    font-size: 18px;
+    color: black;
+    font-weight: 500;
+}
+
+.searchedSubText {
+    font-size: 15px;
+    color: rgb(150, 150, 150);
+    font-weight: 400;
+}

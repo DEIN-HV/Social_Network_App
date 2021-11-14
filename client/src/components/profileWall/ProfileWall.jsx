@@ -69,7 +69,7 @@ export const ProfileWall = () => {
                     </div>
                 </div>
                 <Divider />
-                <WallCenter />
+                <WallCenter wallUser={user} />
                 <div className="wallBottom">
                     <div className="wallBottomWrapper">
                         <div className="wallBottomLeft">

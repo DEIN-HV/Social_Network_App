@@ -19,7 +19,7 @@
 }
 
 .sidebarWrapper {
-    padding: 20px;
+    padding: 10px;
 }
 
 ul {
@@ -54,7 +54,12 @@ li {
 .sidebarListItem {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.sidebarListItem:hover {
+    border-radius: 10px;
+    background: rgb(243, 243, 243);
 }
 
 .sidebarListItemText {

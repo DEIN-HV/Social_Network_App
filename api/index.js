@@ -9,6 +9,7 @@ const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const conversationRoute = require("./routes/conversations");
 const messageRoute = require("./routes/messages");
+const commentRoute = require("./routes/comments");
 const multer = require("multer");
 const path = require("path");
 dotenv.config();
@@ -52,6 +53,7 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
+app.use("/api/comments", commentRoute);
 
 app.listen(8800, () => {
     console.log("Backend server is running!");

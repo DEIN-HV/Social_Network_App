@@ -29,6 +29,7 @@
 .loginBox {
     height: 300px;
     padding: 20px;
+    position: relative;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -83,4 +84,11 @@
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;
+}
+
+.errorMessage {
+    position: absolute;
+    top: 215px;
+    color: red;
+    font-size: 15px;
 }

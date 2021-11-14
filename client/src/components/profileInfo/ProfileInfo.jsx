@@ -17,7 +17,7 @@ export const ProfileInfo = ({ user, hasPicture }) => {
                 {hasPicture &&
                     <Link className="link" to={`/profile/${user._id}`}>
                         <div className="profileInfoProfilePicture">
-                            <ProfilePicture user={user} size="100px" />
+                            <ProfilePicture profilePicture={user.profilePicture} size="100px" />
                             <div style={{ marginTop: 10 }} className="userInfoTitle">{user.username}</div>
                         </div>
                     </Link>

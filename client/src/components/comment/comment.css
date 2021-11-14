@@ -1,0 +1,32 @@
+.showComment {
+    display: flex;
+    margin: 10px;
+}
+
+.showCommentRight {
+    margin-left: 10px;
+}
+
+.commentContent {
+    background: #e7e7e7;
+    border-radius: 13px;
+    padding: 10px;
+}
+
+.commentUsername {
+    font-size: 15px;
+    color: rgb(68, 68, 68);
+    font-weight: 500;
+}
+
+.commentText {
+    font-size: 15px;
+    color: rgb(116, 116, 116);
+    font-weight: 400;
+}
+
+.commentTime {
+    font-size: 12px;
+    color: rgb(116, 116, 116);
+    font-weight: 400;
+}

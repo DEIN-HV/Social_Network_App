@@ -39,7 +39,7 @@ export const Rightbar = () => {
                     ))}
                 </ul> */}
 
-                <FriendList />
+                <FriendList friendListType={1} />
             </div>
 
         </div>

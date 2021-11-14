@@ -1,0 +1,65 @@
+.groupConversation {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.groupConversation:hover {
+    border-radius: 10px;
+    background: rgb(243, 243, 243);
+}
+
+.groupConversationIcon {
+    margin-right: 10px;
+}
+
+.groupConversationText {
+    font-size: 15px;
+}
+
+.modalAddGroup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: auto;
+    width: 300px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+}
+
+.modalAddGroupTop {
+    display: flex;
+    justify-content: center;
+}
+
+.nameInput {
+    border: none;
+    background: rgb(243, 243, 243);
+    margin: 10px 0;
+    width: 90%;
+    border-radius: 25px;
+    padding: 10px;
+}
+
+.nameInput:focus {
+    outline: none;
+}
+
+.addedMembersContainer {
+}
+
+.addedMembers {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.addedMembersUsername {
+    margin-left: 10px;
+}

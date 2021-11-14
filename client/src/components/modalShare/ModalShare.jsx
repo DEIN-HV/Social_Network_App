@@ -25,8 +25,6 @@ export const ModalShare = ({ open, onHandleClose }) => {
             userId: user._id,
             desc: descRef.current.value,
         }
-        console.log(newPost)
-        console.log(file)
 
         if (file) {
             const newForm = new FormData();
@@ -62,7 +60,7 @@ export const ModalShare = ({ open, onHandleClose }) => {
             <div className="modalShare modal">
                 <div className="shareWrapper">
                     <div className="shareTop">
-                        <ProfilePicture user={user} size="50px" />
+                        <ProfilePicture profilePicture={user.profilePicture} size="50px" />
                         <input
                             type="text"
                             className="shareInput"
