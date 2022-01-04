@@ -11,13 +11,24 @@
     border-radius: 10px;
 }
 
-.notificationContent {
+.notificationLeft {
+    flex: 2;
+}
+
+.notificationCenter {
+    flex: 9;
     margin-left: 10px;
 }
 
 .notificationTime {
     font-size: 12px;
 }
+
+.notificationRight {
+    flex: 1;
+    /* width: 50px; */
+}
+
 .notificationMark {
     margin-left: 10px;
     width: 13px;

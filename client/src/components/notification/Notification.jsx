@@ -1,19 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProfilePicture } from "../profilePicture/ProfilePicture";
-import { format } from "timeago.js"
+import { format } from 'timeago.js';
 import "./notification.css";
 import { Link } from "react-router-dom";
 
 export const Notification = ({ notification, index }) => {
     const [postUser, setPostuser] = useState();
-    const [isRead, setIsRead] = useState(notification.isRead);
+    const [isRead, setIsRead] = useState();
     console.log(isRead)
     console.log(notification.isRead)
 
     useEffect(() => {
+        setIsRead(notification.isRead);
+    }, []);
+
+    useEffect(() => {
         getPostUserInfo();
-    }, [notification])
+    }, [notification]);
 
     const getPostUserInfo = async () => {
         try {
@@ -42,19 +46,21 @@ export const Notification = ({ notification, index }) => {
     return (
         <Link className="link" to={`/post/${notification.postId}`} onClick={() => handleReadedNotification()}>
             <div className="notification">
-                <ProfilePicture profilePicture={postUser.profilePicture} size="40px" />
-                <div className="notificationContent">
+                <div className="notificationLeft">
+                    <ProfilePicture profilePicture={postUser.profilePicture} size="40px" />
+                </div>
+                <div className="notificationCenter">
                     <div className="notificationText">
                         <b>{postUser.username}</b> has a new post
 
                     </div>
                     <div className="notificationTime">
-                        {format(postUser.createdAt)}
+                        {format(notification.createdAt)}
                     </div>
                 </div>
-                {!isRead &&
-                    <div className="notificationMark"></div>
-                }
+                <div className="notificationRight">
+                    {!isRead && <div className="notificationMark"></div>}
+                </div>
             </div>
         </Link>
     )
