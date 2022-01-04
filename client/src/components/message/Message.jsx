@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 
 export const Message = ({ message, own, type, receiverInfo, groupConversationMemberInfos }) => {
     const { user } = useContext(AuthContext)
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
     let otherMemberPicture
     if (type === 1 && receiverInfo)
@@ -24,11 +25,18 @@ export const Message = ({ message, own, type, receiverInfo, groupConversationMem
                 <ProfilePicture profilePicture={own ? user.profilePicture : otherMemberPicture} size="40px" />
             </div>
             <div className={own ? "messageRight own" : "messageRight"}>
-                <p className={own ? "messageText own" : "messageText"}>
-                    {message.text}
-                </p>
+                <div className={own ? "messageContent own" : "messageContent"}>
+                    <p className={own ? "messageText own" : "messageText"}>
+                        {message.text}
+                    </p>
+                    {message.img &&
+                        <img className="messageImg" src={PF + message.img} alt="" />
+                    }
+                </div>
                 <p className="messageBottom">{format(message.createdAt)}</p>
             </div>
+
+
         </div>
     )
 }

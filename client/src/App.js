@@ -8,6 +8,8 @@ import { useContext } from "react";
 import { Register } from "./pages/register/Register";
 import { Messenger } from "./pages/messenger/Messenger";
 import Search from "./pages/search/Search";
+import { PostWatch } from "./pages/postWatch/PostWatch";
+import { PostDetail } from "./pages/postDetail/postDetail";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -33,6 +35,10 @@ function App() {
           </Route>
           <Route path="/search">
             {user ? <Search /> : <Redirect to="/login" />}
+          </Route>
+
+          <Route path="/post/:id">
+            {user ? <PostDetail /> : <Redirect to="/login" />}
           </Route>
         </Switch>
       </Router>

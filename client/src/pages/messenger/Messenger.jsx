@@ -1,4 +1,4 @@
-import { AttachFile, EmojiEmotions, PermMedia } from "@material-ui/icons";
+import { AttachFile, EmojiEmotions, PermMedia, CropLandscapeRounded, Group, Edit, Cancel } from "@material-ui/icons";
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -10,23 +10,35 @@ import { AuthContext } from "../../context/authContext/AuthContext";
 import { io } from "socket.io-client";
 import "./messenger.css";
 import { GroupConversation } from "../../components/groupConversation/GroupConversation";
+import { ProfilePicture } from "../../components/profilePicture/ProfilePicture";
+import Picker from 'emoji-picker-react';
 
 
 export const Messenger = () => {
+    const location = useLocation();
+    const groupConversation = location.groupConversation
+
     const { user } = useContext(AuthContext);
+    const [infoUserOpen, setInfoUserOpen] = useState(true);
     const [conversation, setConversation] = useState(null);
     const [messages, setMessages] = useState([]);
     const [arrivalMess, setArrivalMess] = useState(null);
     const [groupConversations, setGroupConversations] = useState([]);
     const [groupConversationMemberInfos, setGroupConversationMemberInfos] = useState([]);
+    const [openCreateGroupChat, setOpenCreateGroupChat] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [groupName, setGroupName] = useState("");
+    const [groupNameTitle, setGroupNameTitle] = useState();
+    const [openEmoji, setOpenEmoji] = useState(false);
+    const [file, setFile] = useState("");
+
     const messageRef = useRef();
     const scrollRef = useRef();
-    const location = useLocation();
+    const emojiRef = useRef();
+    const socket = useRef();
+
     const receiver = location.receiver;
     const type = location.type;
-    const groupConversation = location.groupConversation;
-
-    const socket = useRef();
 
     // //GET NEW MESSAGE FROM WEB SOCKET
     useEffect(() => {
@@ -52,6 +64,7 @@ export const Messenger = () => {
     useEffect(() => {
         fetchMemberInfoInGroupChat();
         setMessages([]);
+        setGroupNameTitle(groupConversation ? groupConversation.name : "");
     }, [groupConversation])
 
     useEffect(() => {
@@ -107,13 +120,30 @@ export const Messenger = () => {
         e.preventDefault();
         const text = messageRef.current.value;
 
-        if (text) {
+        const newMess = {
+            conversationId: type === 1 ? conversation._id : groupConversation._id,
+            sender: user._id,
+        }
+
+        //UPLOAD FILE
+        if (file) {
+            const newForm = new FormData();
+            const fileName = Date.now() + file.name;
+            newMess.img = "conversation/" + fileName;
+            newForm.append("type", "conversation/");
+            newForm.append("name", fileName);
+            newForm.append("file", file);
             try {
-                const newMess = {
-                    conversationId: type === 1 ? conversation._id : groupConversation._id,
-                    sender: user._id,
-                    text: text,
-                }
+                await axios.post("/upload", newForm);
+                setFile("");
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        if (text || file) {
+            try {
+                newMess.text = text;
                 const res = await axios.post("/messages", newMess);
                 // setMessages([...messages, res.data])
                 messageRef.current.value = "";
@@ -138,13 +168,39 @@ export const Messenger = () => {
                 infoArr.push(
                     {
                         _id: data._id,
-                        profilePicture: data.profilePicture
+                        profilePicture: data.profilePicture,
+                        username: data.username
                     })
             ));
             setGroupConversationMemberInfos(infoArr)
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const handleOpenEditGroupChatModal = () => {
+        setOpenCreateGroupChat(true);
+        setGroupName(groupConversation.name);
+        setIsEdit(true);
+        console.log(groupConversationMemberInfos)
+    }
+
+    //CLOSE EMOJI WHEN CLICK OUTSIDE
+    useEffect(() => {
+        const checkIfClickedOutside = e => {
+            if (openEmoji && emojiRef.current && !emojiRef.current.contains(e.target)) {
+                setOpenEmoji(false)
+            }
+        }
+        //bind the listener event
+        document.addEventListener("mousedown", checkIfClickedOutside);
+        return () => {
+            document.removeEventListener("mousedown", checkIfClickedOutside);
+        }
+    }, [openEmoji]);
+
+    const handleChoseEmoji = (e, emojiObject) => {
+        messageRef.current.value += emojiObject.emoji;
     }
 
     return (
@@ -159,7 +215,20 @@ export const Messenger = () => {
                         </div>
                         <div className="chatMenuItem">
                             <span className="chatMenuTitle">Group conversations</span>
-                            <GroupConversation groupConversations={groupConversations} />
+                            <GroupConversation
+                                openCreateGroupChat={openCreateGroupChat}
+                                setOpenCreateGroupChat={setOpenCreateGroupChat}
+                                groupConversations={groupConversations}
+                                setGroupConversations={setGroupConversations}
+                                groupName={groupName}
+                                setGroupName={setGroupName}
+                                groupConversationMemberInfos={groupConversationMemberInfos}
+                                setGroupConversationMemberInfos={setGroupConversationMemberInfos}
+                                isEdit={isEdit}
+                                setIsEdit={setIsEdit}
+                                groupNameTitle={groupNameTitle}
+                                setGroupNameTitle={setGroupNameTitle} />
+
                         </div>
                     </div>
                 </div>
@@ -167,6 +236,26 @@ export const Messenger = () => {
                 <div className="chatBox">
                     <div className="chatBoxWrapper">
                         <div className="chatBoxTop">
+                            {type === 1 &&
+                                <div className="chatBoxTopWrapper">
+                                    <div className="chatBoxTopLeft">
+                                        <ProfilePicture profilePicture={receiver.profilePicture} size="40px" />
+                                        <span className="chatBoxTopText">{receiver.username} </span>
+                                    </div>
+                                    <div className={`chatBoxTopLeftIcon${infoUserOpen ? " active" : ""}`}>
+                                        <CropLandscapeRounded onClick={() => setInfoUserOpen(!infoUserOpen)} />
+                                    </div>
+                                </div>
+                            }
+                            {type === 2 &&
+                                <div className="chatBoxTopLeft">
+                                    <Group />
+                                    <span className="chatBoxTopText" onClick={handleOpenEditGroupChatModal}>{groupNameTitle} </span>
+                                </div>
+                            }
+                        </div>
+
+                        <div className="chatBoxCenter">
                             {
                                 messages.map((message) => (
                                     <div ref={scrollRef}>
@@ -184,23 +273,47 @@ export const Messenger = () => {
 
                         </div>
                         <form className="chatBoxBottom" onSubmit={handleMessSubmit}>
-                            <PermMedia htmlColor="tomato" className="shareOptionIcon" />
-                            <AttachFile htmlColor="blue" className="shareOptionIcon" />
-                            <EmojiEmotions htmlColor="goldenrod" className="shareOptionIcon" />
+                            <label htmlFor="file" className="icon">
+                                <PermMedia htmlColor="tomato" className="shareOptionIcon" />
+                                {/* <AttachFile htmlColor="blue" className="shareOptionIcon" /> */}
+                            </label>
+                            <input
+                                id="file"
+                                type="file"
+                                style={{ display: 'none' }}
+                                accept="image/*"
+                                onChange={(e) => setFile(e.target.files[0])}
+                            />
+                            <EmojiEmotions htmlColor="goldenrod" className="icon" onClick={() => setOpenEmoji(!openEmoji)} />
+                            {openEmoji &&
+                                <div className="emojiPicker" ref={emojiRef} >
+                                    <Picker onEmojiClick={handleChoseEmoji} />
+                                </div>
+                            }
                             <input
                                 className="chatMessageInput"
                                 placeholder="write something..."
                                 ref={messageRef}
-                            ></input>
+                            />
                             <button className="chatSubmitButton" type="submit">
                                 Send
                             </button>
                         </form>
+
+                        {
+                            file &&
+                            <div className="imgReviewContain">
+                                <img className="imgReview" src={URL.createObjectURL(file)} />
+                                <Cancel className="imgReviewCancelIcon" onClick={() => setFile("")} />
+                            </div>
+                        }
                     </div>
                 </div>
-                <div className="chatFriendInfo">
-                    <ProfileInfo user={receiver} hasPicture={true} />
-                </div>
+                {(infoUserOpen && type === 1) &&
+                    <div className="chatFriendInfo">
+                        <ProfileInfo user={receiver} hasPicture={true} />
+                    </div>
+                }
             </div>
         </>
     )

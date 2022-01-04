@@ -1,0 +1,9 @@
+.addfriendListName {
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 576px) {
+    .addfriendListName {
+        display: none;
+    }
+}

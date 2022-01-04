@@ -75,7 +75,18 @@ export const ProfileWall = () => {
                         <div className="wallBottomLeft">
                             <>
                                 <ProfileInfo user={user} />
-                                {(posts.length > 0) && <PhotoList posts={posts} />}
+
+                                {/* PHOTO LIST PROFILE */}
+                                {(posts.length > 0) &&
+                                    <div className="photoList">
+                                        <div className="userInfoTitle">Photo List</div>
+                                        <div className="profileInfoPhotoList">
+                                            {posts.map((post) => (
+                                                <PhotoList post={post} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                }
                             </>
                         </div>
                         <div className="wallBottomRight">

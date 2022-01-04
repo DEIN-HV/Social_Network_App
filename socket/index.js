@@ -40,4 +40,9 @@ io.on("connection", (socket) => {
     socket.on("addMessage", (message) => {
         io.emit("getMessage", message);
     })
+
+    //getNotification
+    socket.on("addNotification", (notification) => {
+        io.emit("getNotification", notification);
+    })
 })

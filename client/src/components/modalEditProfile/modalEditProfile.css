@@ -16,7 +16,7 @@
     box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
 }
 
-.modalEditProfile:focus {
+.modalEdit:focus {
     outline: none;
 }
 
@@ -76,6 +76,16 @@
     font-weight: 500;
     cursor: pointer;
     color: white;
+}
+
+.fieldInput {
+    position: absolute;
+    left: 125px;
+    border: none;
+    background: rgb(243, 243, 243);
+    border-radius: 25px;
+    width: 70%;
+    padding: 5px 10px;
 }
 
 .fieldInput:focus {

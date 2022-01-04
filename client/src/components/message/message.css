@@ -14,11 +14,26 @@
     max-width: 70%;
 }
 
-.messageText {
+.messageRight.own {
+    align-items: flex-end;
+}
+
+.messageContent {
     border-radius: 20px;
-    padding: 10px 20px;
+    padding: 12px 12px;
     background: #1877f2;
+}
+
+.messageContent.own {
+    background: #e7e7e7;
+}
+
+.messageText {
     color: white;
+}
+
+.messageText.own {
+    color: black;
 }
 
 .messageBottom {
@@ -37,11 +52,9 @@
     flex-direction: row-reverse;
 }
 
-.messageText.own {
-    background: #e7e7e7;
-    color: black;
-}
-
-.messageRight.own {
-    align-items: flex-end;
+.messageImg {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
 }

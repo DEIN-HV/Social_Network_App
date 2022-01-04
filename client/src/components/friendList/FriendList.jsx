@@ -7,7 +7,7 @@ import "./friendList.css";
 import { ChatFriendItem } from "../chatFriendItem/ChatFriendItem";
 import { AddMemberItem } from "../addMemberItem/AddMemberItem";
 
-export const FriendList = ({ friendListType, onCheckFriend }) => {
+export const FriendList = ({ friendListType, onCheckFriend, checkedFriends }) => {
 
     const { user } = useContext(AuthContext);
     const friendIdList = user.followings;
@@ -57,10 +57,10 @@ export const FriendList = ({ friendListType, onCheckFriend }) => {
 
     return (
         <ul className="friendList">
-            {friendList.map((friend) => {
+            {friendList.map((friend, i) => {
                 return (friendListType === 1)
-                    ? (<ChatFriendItem friend={friend} />)
-                    : (<AddMemberItem friend={friend} onCheckFriend={onCheckFriend} />)
+                    ? (<ChatFriendItem friend={friend} key={i} />)
+                    : (<AddMemberItem friend={friend} onCheckFriend={onCheckFriend} checkedFriends={checkedFriends} key={i} />)
             }
             )}
         </ul>

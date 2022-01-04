@@ -83,6 +83,24 @@ router.get("/profilePost/:userId", async (req, res) => {
     }
 });
 
+//GET IMAGE BLOG
+router.get("/imgBlog/:userId", async (req, res) => {
+    try {
+        // const post = await Post.find({ userId: req.params.userId });
+        const post = await Post.find(
+            {
+                $and: [
+                    { userId: req.params.userId },
+                    { img: { $ne: "" } }
+                ]
+            }
+        );
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
 //GET TIMELINE
 router.get("/timeline/:id", async (req, res) => {
     try {

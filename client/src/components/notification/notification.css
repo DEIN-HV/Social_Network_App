@@ -1,0 +1,27 @@
+.notification {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    justify-content: space-between;
+}
+
+.notification:hover {
+    background: rgb(238, 238, 238);
+    border-radius: 10px;
+}
+
+.notificationContent {
+    margin-left: 10px;
+}
+
+.notificationTime {
+    font-size: 12px;
+}
+.notificationMark {
+    margin-left: 10px;
+    width: 13px;
+    height: 13px;
+    border-radius: 25px;
+    background: rgb(0, 69, 218);
+}

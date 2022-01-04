@@ -64,6 +64,7 @@
 
 .topbarRight {
     flex: 4;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -127,9 +128,30 @@
     color: rgb(255, 255, 255);
 }
 
+.icon {
+    cursor: pointer;
+}
+
 .proFile {
     display: flex;
     align-items: center;
+}
+
+.notifications {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 40px;
+    padding: 10px;
+    max-height: 600px;
+    width: 300px;
+    overflow-y: scroll;
+    border-radius: 10px;
+    background: white;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    color: rgb(80 80 80);
+    opacity: 1;
 }
 
 @media screen and (max-width: 576px) {

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
     PermMedia,
     Label,
@@ -11,6 +11,8 @@ import { AuthContext } from '../../context/authContext/AuthContext';
 import axios from "axios";
 import { ProfilePicture } from "../profilePicture/ProfilePicture"
 import { Modal } from '@material-ui/core';
+import { io } from "socket.io-client";
+
 import "./modalShare.css"
 
 export const ModalShare = ({ open, onHandleClose }) => {
@@ -18,6 +20,11 @@ export const ModalShare = ({ open, onHandleClose }) => {
     const { user } = useContext(AuthContext);
     const [file, setFile] = useState(null);
     const descRef = useRef(null);
+    const socket = useRef();
+
+    useEffect(() => {
+        socket.current = io("ws://localhost:8900");
+    }, []);
 
     const handlePost = async (e) => {
         e.preventDefault();
@@ -29,11 +36,19 @@ export const ModalShare = ({ open, onHandleClose }) => {
         if (file) {
             const newForm = new FormData();
             const fileName = Date.now() + file.name;
-            newPost.img = "post/" + fileName;
+
+            const video = file.name.split('.');
+            if (video[1] == "mp4") {
+                newPost.img = "post/videos/" + fileName;
+                newForm.append("type", "post/videos");
+            }
+            else {
+                newPost.img = "post/" + fileName;
+                newForm.append("type", "post");
+            }
+
             newForm.append("name", fileName);
-            newForm.append("type", "post");
             newForm.append("file", file);
-            console.log(newForm)
             try {
                 //upload image
                 await axios.post("/upload", newForm);
@@ -41,10 +56,25 @@ export const ModalShare = ({ open, onHandleClose }) => {
                 console.log(error);
             }
         }
+        else newPost.img = "";
 
         try {
-            await axios.post("/posts", newPost);
+            const resPost = await axios.post("/posts", newPost);
+
+            //ADD NOTIFICATION
+            const newNotification = {
+                postId: resPost.data._id,
+                postUser: resPost.data.userId,
+                isRead: false,
+            }
+            user.followers.map((follower) => {
+                newNotification.userId = follower;
+                axios.post("/notifications", newNotification)
+            })
+            //EMIT SOCKET NOTIFICATION 
+            socket.current.emit("addNotification", newPost);
             window.location.reload();
+
         } catch (error) {
             console.log(error)
         }
@@ -68,8 +98,7 @@ export const ModalShare = ({ open, onHandleClose }) => {
                             ref={descRef} />
                     </div>
 
-                    {/* <hr className="shareHr" /> */}
-
+                    {/* PREVIEW BEFORE UPLOAD */}
                     <div className="shareImgContanier">
                         {!file
                             ? <label htmlFor="file" className="addPhotoContainer">
@@ -78,11 +107,18 @@ export const ModalShare = ({ open, onHandleClose }) => {
                                     Choose your image
                                 </div>
                             </label>
+
                             : <>
-                                <img src={URL.createObjectURL(file)} alt="" className="shareImg" />
+                                {file.name.includes(".mp4")
+                                    ? <video src={URL.createObjectURL(file)}
+                                        className="postImg"
+                                        controls="shareImg" />
+                                    : <img src={URL.createObjectURL(file)} alt="" className="shareImg" />
+                                }
                                 <Cancel className="cancelIcon" onClick={() => setFile(null)} />
                             </>
                         }
+
                     </div>
                     <form className="shareBottom" onSubmit={handlePost}>
                         <div className="shareOptions">
@@ -95,7 +131,7 @@ export const ModalShare = ({ open, onHandleClose }) => {
                                     style={{ display: 'none' }}
                                     type="file"
                                     id="file"
-                                    accept=".png, .jpeg, .jpg"
+                                    accept="image/*|video/*"
                                     onChange={handleSetFile} />
                             </label>
                             <div className="shareOption">

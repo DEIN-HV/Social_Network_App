@@ -24,15 +24,28 @@ router.post("/", async (req, res) => {
 //ADD NEW GROUP CONVERSATION
 router.post("/group", async (req, res) => {
     const newConversation = new Conversation({
-        members: [
-            req.body.senderId,
-        ],
+        members: req.body.members,
         type: 2,
         name: req.body.name,
     })
 
     try {
         const savedConversation = await newConversation.save();
+        res.status(200).json(savedConversation);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
+//EDIT GROUP CONVERSATION
+router.put("/group/:id", async (req, res) => {
+    try {
+        const savedConversation = await Conversation.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: req.body
+            },
+            { new: true });
         res.status(200).json(savedConversation);
     } catch (error) {
         res.status(500).json(error);
@@ -55,6 +68,16 @@ router.put("/group/add/:memberId", async (req, res) => {
     }
 });
 
+//REMOVE GROUP CONVERSATION
+router.delete("/group/:groupId", async (req, res) => {
+    try {
+        await Conversation.findByIdAndDelete(req.params.groupId);
+        res.status(200).json("remove group successfully");
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
 //REMOVE MEMBER FROM GROUP CONVERSATION
 router.put("/group/remove/:memberId", async (req, res) => {
     try {
@@ -70,7 +93,6 @@ router.put("/group/remove/:memberId", async (req, res) => {
         res.status(500).json(error);
     }
 });
-
 
 //DELETE CONVERSATION
 router.delete("/delete/:firstUserId/:secondUserId", async (req, res) => {
