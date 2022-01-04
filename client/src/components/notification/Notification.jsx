@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProfilePicture } from "../profilePicture/ProfilePicture";
-import { CircularProgress } from "@material-ui/core"
 import { format } from "timeago.js"
 import "./notification.css";
 import { Link } from "react-router-dom";
 
 export const Notification = ({ notification, index }) => {
     const [postUser, setPostuser] = useState();
+    const [isRead, setIsRead] = useState(notification.isRead);
+    console.log(isRead)
+    console.log(notification.isRead)
 
     useEffect(() => {
         getPostUserInfo();
@@ -22,11 +24,23 @@ export const Notification = ({ notification, index }) => {
         }
     }
 
+    const handleReadedNotification = async () => {
+        console.log("readed")
+        if (!notification.isRead) {
+            try {
+                await axios.put("/notifications/readed/" + notification._id);
+                setIsRead(true);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
 
 
     if (!postUser) return "";
     return (
-        <Link className="link" to={`/post/${notification.postId}`} onClick={() => console.log("readed")}>
+        <Link className="link" to={`/post/${notification.postId}`} onClick={() => handleReadedNotification()}>
             <div className="notification">
                 <ProfilePicture profilePicture={postUser.profilePicture} size="40px" />
                 <div className="notificationContent">
@@ -35,10 +49,10 @@ export const Notification = ({ notification, index }) => {
 
                     </div>
                     <div className="notificationTime">
-                        {format(postUser.createAt)}
+                        {format(postUser.createdAt)}
                     </div>
                 </div>
-                {!postUser.isRead &&
+                {!isRead &&
                     <div className="notificationMark"></div>
                 }
             </div>

@@ -24,4 +24,19 @@ router.get("/:userId", async (req, res) => {
     }
 });
 
+//UPDATE NOTIFICATION
+router.put("/readed/:id", async (req, res) => {
+    try {
+        const notifications = await Notification.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: { isRead: true }
+            },
+            { new: true })
+        res.status(200).json(notifications);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 module.exports = router;

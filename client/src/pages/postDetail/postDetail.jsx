@@ -31,7 +31,9 @@ export const PostDetail = () => {
             <Topbar />
             <div className="homeContainer">
                 <Sidebar />
-                <Post key={post._id} post={post} />
+                <div className="postContent">
+                    <Post key={post._id} post={post} />
+                </div>
                 <Rightbar />
             </div>
         </>
