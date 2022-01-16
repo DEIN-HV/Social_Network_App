@@ -42,7 +42,6 @@ export const Post = ({ post }) => {
         fetchComments();
         setLike(post.likes.includes(user._id) ? like - 1 : like)
     }, []);
-    console.log(postUser)
 
     //CLOSE EMOJI WHEN CLICK OUTSIDE
     useEffect(() => {

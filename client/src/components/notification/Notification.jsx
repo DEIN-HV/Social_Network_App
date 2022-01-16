@@ -5,18 +5,14 @@ import { format } from 'timeago.js';
 import "./notification.css";
 import { Link } from "react-router-dom";
 
-export const Notification = ({ notification, index }) => {
+export const Notification = ({ notification, option, index }) => {
     const [postUser, setPostuser] = useState();
     const [isRead, setIsRead] = useState();
-    console.log(isRead)
-    console.log(notification.isRead)
-
-    useEffect(() => {
-        setIsRead(notification.isRead);
-    }, []);
+    console.log(index + " " + notification.isRead + " " + isRead)
 
     useEffect(() => {
         getPostUserInfo();
+        setIsRead(notification.isRead);
     }, [notification]);
 
     const getPostUserInfo = async () => {

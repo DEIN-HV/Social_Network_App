@@ -13,12 +13,38 @@ router.post("/", async (req, res) => {
 });
 
 //GET NOTIFICATION
-router.get("/:userId", async (req, res) => {
+// router.get("/userId", async (req, res) => {
+//     try {
+//         const notifications = await Notification.find({
+//             userId: { $in: req.params.userId }
+//         })
+//         res.status(200).json(notifications);
+//     } catch (err) {
+//         res.status(500).json(err);
+//     }
+// });
+router.get("/", async (req, res) => {
     try {
-        const notifications = await Notification.find({
-            userId: { $in: req.params.userId }
-        })
-        res.status(200).json(notifications);
+        const userId = req.query.userId
+        const option = req.query.option
+        if (option === "all") {
+            const notifications = await Notification.find(
+                { userId: { $in: userId } }
+            )
+            res.status(200).json(notifications);
+        }
+
+        if (option === "unread") {
+            const notifications = await Notification.find({
+                $and: [
+                    { userId: { $in: userId } },
+                    { isRead: { $in: false } },
+                ]
+            })
+            res.status(200).json(notifications);
+        }
+
+
     } catch (err) {
         res.status(500).json(err);
     }

@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
     })
 
     //getNotification
-    socket.on("addNotification", (notification) => {
-        io.emit("getNotification", notification);
+    socket.on("addNewPost", (newPost) => {
+        io.emit("getNewPost", newPost);
     })
 })

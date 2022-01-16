@@ -81,9 +81,11 @@ export const ProfileWall = () => {
                                     <div className="photoList">
                                         <div className="userInfoTitle">Photo List</div>
                                         <div className="profileInfoPhotoList">
-                                            {posts.map((post) => (
-                                                <PhotoList post={post} />
+                                            {posts.map((post, i) => (
+                                                <PhotoList post={post} key={i} index={i} />
                                             ))}
+
+                                            {/* {posts.map((post, i) => { return console.log(i) })} */}
                                         </div>
                                     </div>
                                 }
@@ -91,8 +93,8 @@ export const ProfileWall = () => {
                         </div>
                         <div className="wallBottomRight">
                             <Share />
-                            {posts.map((post) => (
-                                <Post key={post.id} post={post} />
+                            {posts.map((post, i) => (
+                                <Post key={i} post={post} />
                             ))}
                         </div>
                     </div>

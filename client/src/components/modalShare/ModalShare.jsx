@@ -71,13 +71,16 @@ export const ModalShare = ({ open, onHandleClose }) => {
                 newNotification.userId = follower;
                 axios.post("/notifications", newNotification)
             })
+
             //EMIT SOCKET NOTIFICATION 
-            socket.current.emit("addNotification", newPost);
-            window.location.reload();
+            socket.current.emit("addNewPost", resPost.data);
+            onHandleClose()
+            // window.location.reload();
 
         } catch (error) {
             console.log(error)
         }
+
     }
 
     const handleSetFile = (e) => {

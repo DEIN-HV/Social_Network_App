@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Chat, Notifications, Person, Search, ArrowDropDown } from '@material-ui/icons';
-import './topbar.css'
+import { Chat, Person, Search } from '@material-ui/icons';
+import React, { useContext, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { AuthContext } from '../../context/authContext/AuthContext';
+import { NotificationList } from '../notificationList/NotificationList';
 import { ProfileMenu } from '../profileMenu/ProfileMenu';
-import { AuthContext } from '../../context/authContext/AuthContext'
 import { ProfilePicture } from '../profilePicture/ProfilePicture';
-import axios from "axios"
-import { io } from "socket.io-client";
-import { Notification } from '../notification/Notification';
+import './topbar.css';
 
 export const Topbar = ({ searchValue, limit }) => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -15,7 +13,7 @@ export const Topbar = ({ searchValue, limit }) => {
     const history = useHistory();
     const [value, setValue] = useState(searchValue);
     const [notications, setNotifications] = useState();
-    const [openNotification, setOpenNotification] = useState(false);
+
     const notificationRef = useRef();
     const socket = useRef();
 
@@ -24,36 +22,6 @@ export const Topbar = ({ searchValue, limit }) => {
             history.push(`/search?username=${value}&_page=1&_limit=5`);
         }
     }
-
-    useEffect(() => {
-        getNotification();
-
-        socket.current = io("ws://localhost:8900");
-        socket.current.on("getNotification", (newNotification) => {
-            setNotifications((notications) => [...notications, newNotification])
-        });
-    }, []);
-
-    const getNotification = async () => {
-        try {
-            const res = await axios.get("/notifications/" + user._id);
-            setNotifications(res.data);
-        } catch (error) {
-            console.log(error)
-        }
-    };
-
-    //CLOSE NOTIFICATION WHEN CLICK OUTSIDE
-    useEffect(() => {
-        const checkIfClickedOutside = e => {
-            if (openNotification && notificationRef.current && !notificationRef.current.contains(e.target)) {
-                setOpenNotification(false)
-            }
-        }
-        //bind the listener event
-        document.addEventListener("mousedown", checkIfClickedOutside);
-
-    }, [openNotification]);
 
     return (
         <div className="topbarContainer">
@@ -98,10 +66,9 @@ export const Topbar = ({ searchValue, limit }) => {
                             <span className="topbarIconBadge">2</span>
                         </div>
                     </Link>
-                    <div className="topbarIconItem" onClick={() => setOpenNotification(!openNotification)}>
-                        <Notifications />
-                        <span className="topbarIconBadge">{notications ? notications.length : ""}</span>
-                    </div>
+
+                    <NotificationList />
+
                 </div>
                 <div className="proFile">
                     <Link to={`/profile/${user._id}`} className="topbarProfileImg link">
@@ -109,18 +76,6 @@ export const Topbar = ({ searchValue, limit }) => {
                     </Link>
                     <ProfileMenu user={user} />
                 </div>
-
-                {
-                    (notications && openNotification) &&
-                    <div className="notifications" id="noti" ref={notificationRef}>
-                        {notications.map((notification, i) => (
-                            <Notification
-                                notification={notification}
-                                index={i}
-                            />
-                        ))}
-                    </div>
-                }
             </div>
         </div>
     )
