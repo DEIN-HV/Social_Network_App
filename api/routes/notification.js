@@ -50,6 +50,16 @@ router.get("/", async (req, res) => {
     }
 });
 
+//DELETE NOTIFICATION
+router.delete("/:id", async (req, res) => {
+    try {
+        await Notification.findByIdAndDelete(req.params.id)
+        res.status(200).json("delete successfully");
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 //UPDATE NOTIFICATION
 router.put("/readed/:id", async (req, res) => {
     try {

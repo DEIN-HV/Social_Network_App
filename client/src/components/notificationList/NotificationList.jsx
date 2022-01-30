@@ -49,6 +49,22 @@ export const NotificationList = () => {
         document.addEventListener("mousedown", checkIfClickedOutside);
     }, [openNotification]);
 
+
+    const handleRemoveNotification = async (notificationId) => {
+        if (notificationId) {
+
+            try {
+                await axios.delete("/notifications/" + notificationId);
+            } catch (error) {
+                console.log(error)
+            }
+
+            // setNotifications((n) => )
+            const newNotification = notications.filter(n => n._id !== notificationId)
+            setNotifications(newNotification)
+        }
+    }
+
     return (
         <>
             <div className="topbarIconItem" onClick={() => setOpenNotification(!openNotification)}>
@@ -81,6 +97,7 @@ export const NotificationList = () => {
                             notification={notification}
                             option={option}
                             index={i}
+                            onRemoveNotification={handleRemoveNotification}
                         />
                     ))}
                 </div>

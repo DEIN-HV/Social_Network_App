@@ -12,6 +12,7 @@ import "./messenger.css";
 import { GroupConversation } from "../../components/groupConversation/GroupConversation";
 import { ProfilePicture } from "../../components/profilePicture/ProfilePicture";
 import Picker from 'emoji-picker-react';
+import { Webcam } from "../../components/webcam/Webcam";
 
 
 export const Messenger = () => {
@@ -313,6 +314,7 @@ export const Messenger = () => {
                     <div className="chatFriendInfo">
                         <ProfileInfo user={receiver} hasPicture={true} />
                     </div>
+
                 }
             </div>
         </>

@@ -4,8 +4,9 @@ import { ProfilePicture } from "../profilePicture/ProfilePicture";
 import { format } from 'timeago.js';
 import "./notification.css";
 import { Link } from "react-router-dom";
+import { Clear } from "@mui/icons-material"
 
-export const Notification = ({ notification, option, index }) => {
+export const Notification = ({ notification, option, index, onRemoveNotification }) => {
     const [postUser, setPostuser] = useState();
     const [isRead, setIsRead] = useState();
     console.log(index + " " + notification.isRead + " " + isRead)
@@ -36,16 +37,16 @@ export const Notification = ({ notification, option, index }) => {
         }
     }
 
-
-
     if (!postUser) return "";
     return (
-        <Link className="link" to={`/post/${notification.postId}`} onClick={() => handleReadedNotification()}>
-            <div className="notification">
-                <div className="notificationLeft">
-                    <ProfilePicture profilePicture={postUser.profilePicture} size="40px" />
-                </div>
-                <div className="notificationCenter">
+
+        <div className="notification">
+            <div className="notificationLeft">
+                <ProfilePicture profilePicture={postUser.profilePicture} size="40px" />
+            </div>
+
+            <div className="notificationCenter">
+                <Link className="link" to={`/post/${notification.postId}`} onClick={() => handleReadedNotification()}>
                     <div className="notificationText">
                         <b>{postUser.username}</b> has a new post
 
@@ -53,11 +54,17 @@ export const Notification = ({ notification, option, index }) => {
                     <div className="notificationTime">
                         {format(notification.createdAt)}
                     </div>
-                </div>
-                <div className="notificationRight">
-                    {!isRead && <div className="notificationMark"></div>}
+                </Link>
+            </div>
+            <div className="notificationRight">
+                {!isRead && <div className="notificationMark"></div>}
+                <div className="notificationCancelIconContent" onClick={() => onRemoveNotification(notification._id)}>
+                    <Clear htmlColor="red" className="notificationCancelIcon" />
                 </div>
             </div>
-        </Link>
+        </div>
+
+
+
     )
 }

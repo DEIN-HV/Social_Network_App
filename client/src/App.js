@@ -10,6 +10,7 @@ import { Messenger } from "./pages/messenger/Messenger";
 import Search from "./pages/search/Search";
 import { PostWatch } from "./pages/postWatch/PostWatch";
 import { PostDetail } from "./pages/postDetail/postDetail";
+import { Webcam } from "./components/webcam/Webcam";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -19,7 +20,8 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            {user ? <Home /> : <Redirect to="/login" />}
+            {/* {user ? <Home /> : <Redirect to="/login" />} */}
+            <Webcam />
           </Route>
           <Route path="/login">
             {user ? <Redirect to="/" /> : <Login />}

@@ -7,6 +7,7 @@ import axios from "axios";
 
 export const PostWatch = ({ isOpenPostWatch, setIsOpenPostWatch, post, postUser }) => {
     const [userPosts, setUserPosts] = useState([]);
+    const [page, setPage] = useState(0);
 
     useEffect(() => {
         fecthUserPost();
@@ -22,6 +23,10 @@ export const PostWatch = ({ isOpenPostWatch, setIsOpenPostWatch, post, postUser 
         }
     }
 
+    const handleChangePage = (page) => {
+        setPage(page)
+    }
+
     const [photoNumber, setPhotoNumber] = useState(0)
     const arr = userPosts.filter((p) => p._id !== post._id);
     const postSeries = [post].concat(arr);
@@ -32,23 +37,33 @@ export const PostWatch = ({ isOpenPostWatch, setIsOpenPostWatch, post, postUser 
                 <Cancel className="postWatchIcon" onClick={() => setIsOpenPostWatch(false)} />
                 {
                     postSeries.map((post, i) => {
-                        if (i === photoNumber)
+                        if (i === page)
                             return (
                                 <PostWatchDetail post={post} key={i} postUser={postUser} />
                             )
                     })
                 }
-                {(photoNumber !== 0) &&
+                {(page !== 0) &&
                     <NavigateBefore
                         className="postWatchIcon previous"
-                        onClick={() => setPhotoNumber(photoNumber - 1)}
+                        onClick={() => setPage(page - 1)}
                     />}
 
-                {(photoNumber !== (postSeries.length - 1)) &&
+                {(page !== (postSeries.length - 1)) &&
                     <NavigateNext
                         className="postWatchIcon next"
-                        onClick={() => setPhotoNumber(photoNumber + 1)}
+                        onClick={() => setPage(page + 1)}
                     />}
+
+                <div className="bulletPagination">
+                    {
+                        postSeries.map((post, i) => (
+                            <div class={"bulletItem " + (i === page ? "active" : "")} onClick={() => handleChangePage(i)}></div>
+                        ))
+                    }
+                </div>
+
+
             </div>
         </Modal>
     )

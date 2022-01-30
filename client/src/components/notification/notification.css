@@ -11,6 +11,27 @@
     border-radius: 10px;
 }
 
+.notification:hover .notificationCancelIcon {
+    opacity: 1;
+}
+
+.notificationCancelIcon {
+    transform: scale(0.8);
+    opacity: 0;
+}
+
+.notificationCancelIconContent {
+    position: absolute;
+    padding: 5px;
+    border-radius: 25px;
+    right: 5px;
+}
+
+.notificationCancelIconContent:hover {
+    background-color: rgb(255, 255, 255);
+    border: solid 1px rgb(201, 201, 201);
+}
+
 .notificationLeft {
     flex: 2;
 }
@@ -20,12 +41,19 @@
     margin-left: 10px;
 }
 
+.notificationText {
+    font-size: 14px;
+}
+
 .notificationTime {
     font-size: 12px;
 }
 
 .notificationRight {
     flex: 1;
+    display: flex;
+    align-items: center;
+    position: relative;
     /* width: 50px; */
 }
 

@@ -44,6 +44,15 @@
     width: 100vh;
     object-fit: cover;
 }
-
-.cancelIcon {
+.bulletPagination {
+    display: flex;
+    justify-content: center;
+}
+.bulletItem {
+    border-radius: 10px;
+    width: 8px;
+    height: 8px;
+    background: rgb(131, 131, 131);
+    margin-right: 5px;
+    cursor: pointer;
 }
