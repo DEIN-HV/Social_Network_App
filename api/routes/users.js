@@ -101,8 +101,7 @@ router.get("/search", async (req, res) => {
 }
 );
 
-
-//FOLLOW A USER
+//FRIEND REQUESTS (FOLLOW REQUEST)
 router.put("/:id/follow", async (req, res) => {
     if (req.body.userId !== req.params.id) {
         const followTarget = await User.findById(req.params.id);
@@ -111,17 +110,16 @@ router.put("/:id/follow", async (req, res) => {
         if (!followTarget.followers.includes(req.body.userId)) {
             await followTarget.updateOne({ $push: { followers: req.body.userId } })
             await user.updateOne({ $push: { followings: req.params.id } })
-
-            return res.status(200).json("You have beeen followed")
+            return res.status(200).json("You have been request")
         }
-        else return res.status(400).json("You have already followed this user");
+        else return res.status(400).json("You have already requested this user");
     }
     else {
-        return res.status(403).json("You cant follow yourself");
+        return res.status(403).json("You cant request yourself");
     }
 });
 
-//UNFOLLOW A USER
+//CANCEL FRIEND REQUESTS (UNFOLLOW REQUEST)
 router.put("/:id/unfollow", async (req, res) => {
     if (req.body.userId !== req.params.id) {
         const unfollowTarget = await User.findById(req.params.id);
@@ -130,13 +128,52 @@ router.put("/:id/unfollow", async (req, res) => {
         if (unfollowTarget.followers.includes(req.body.userId)) {
             await unfollowTarget.updateOne({ $pull: { followers: req.body.userId } })
             await user.updateOne({ $pull: { followings: req.params.id } })
-
-            return res.status(200).json("You have beeen unfollowed")
+            return res.status(200).json("You have beeen canceled request")
         }
-        else return res.status(400).json("You havent followed this user not yet");
+        else return res.status(400).json("You havent requested this user not yet");
     }
     else {
-        return res.status(403).json("You cant unfollow yourself");
+        return res.status(403).json("You cant cancel request yourself");
+    }
+});
+
+//ACCEPT FRIEND REQUEST
+router.put("/:id/request", async (req, res) => {
+    if (req.body.userId !== req.params.id) {
+        const acceptTarget = await User.findById(req.params.id);
+        const user = await User.findById(req.body.userId);
+        const type = req.body.type;
+
+        if (type === 1) {
+            //ADD FRIEND
+            await acceptTarget.updateOne({ $push: { friendIds: req.body.userId } })
+            await user.updateOne({ $push: { friendIds: req.params.id } })
+        }
+
+        //REMOVE REQUEST
+        await acceptTarget.updateOne({ $pull: { followings: req.body.userId } })
+        await user.updateOne({ $pull: { followers: req.params.id } })
+
+        return res.status(200).json("You have been friend")
+
+    }
+    else {
+        return res.status(403).json("You cant accept yourself");
+    }
+});
+
+//REMOVE FRIEND 
+router.put("/:id/friendRemove", async (req, res) => {
+    if (req.body.userId !== req.params.id) {
+        const acceptTarget = await User.findById(req.params.id);
+        const user = await User.findById(req.body.userId);
+
+        await acceptTarget.updateOne({ $pull: { friendIds: req.body.userId } })
+        await user.updateOne({ $pull: { friendIds: req.params.id } })
+        return res.status(200).json("You have been removed friend")
+    }
+    else {
+        return res.status(403).json("You cant remove friend yourself");
     }
 });
 

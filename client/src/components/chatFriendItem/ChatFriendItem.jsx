@@ -12,15 +12,17 @@ export const ChatFriendItem = ({ friend }) => {
             }}
             className="link">
             <li key={friend._id} className="friendListItem">
-                <img src={friend.profilePicture
-                    ? PF + friend.profilePicture
-                    : PF + "person/noAvatar.png"}
-                    alt=""
-                    className="friendListAvt"
-                />
-                {friend.isOnline &&
-                    <span className="rightbarOnline"></span>
-                }
+                <div className="profilePictureContainer">
+                    <img src={friend.profilePicture
+                        ? PF + friend.profilePicture
+                        : PF + "person/noAvatar.png"}
+                        alt=""
+                        className="friendListAvt"
+                    />
+                    {friend.isOnline &&
+                        <span className="rightbarOnline"></span>
+                    }
+                </div>
                 <span className="friendListName">{friend.username}</span>
             </li>
         </Link>

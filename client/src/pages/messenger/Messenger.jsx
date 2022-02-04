@@ -1,6 +1,6 @@
-import { AttachFile, EmojiEmotions, PermMedia, CropLandscapeRounded, Group, Edit, Cancel } from "@material-ui/icons";
+import { AttachFile, EmojiEmotions, PermMedia, CropLandscapeRounded, Group, Edit, Cancel, Camera } from "@material-ui/icons";
 import axios from "axios";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FriendList } from "../../components/friendList/FriendList";
 import { Message } from "../../components/message/Message";
@@ -13,6 +13,9 @@ import { GroupConversation } from "../../components/groupConversation/GroupConve
 import { ProfilePicture } from "../../components/profilePicture/ProfilePicture";
 import Picker from 'emoji-picker-react';
 import { Webcam } from "../../components/webcam/Webcam";
+import { CameraAlt } from "@mui/icons-material";
+import { Modal } from "@material-ui/core";
+import { dataURLtoFile } from "../../common/functions";
 
 
 export const Messenger = () => {
@@ -31,12 +34,15 @@ export const Messenger = () => {
     const [groupName, setGroupName] = useState("");
     const [groupNameTitle, setGroupNameTitle] = useState();
     const [openEmoji, setOpenEmoji] = useState(false);
+    const [openCapturePhoto, setOpenCapurePhoto] = useState(false);
     const [file, setFile] = useState("");
+    const [capturedPhoto, setCapturedPhoto] = useState("");
 
     const messageRef = useRef();
     const scrollRef = useRef();
     const emojiRef = useRef();
     const socket = useRef();
+    const webcamRef = useRef(null);
 
     const receiver = location.receiver;
     const type = location.type;
@@ -204,6 +210,54 @@ export const Messenger = () => {
         messageRef.current.value += emojiObject.emoji;
     }
 
+
+    // CAPTURE PHOTO
+    const capture = useCallback(
+        () => {
+            const imageSrc = webcamRef.current.getScreenshot();
+            setCapturedPhoto(imageSrc);
+        },
+        [webcamRef]
+    );
+
+    //SEND CAPTURE PHOTO
+    const handleSendCapturePhoto = async () => {
+        const newMess = {
+            conversationId: type === 1 ? conversation._id : groupConversation._id,
+            sender: user._id,
+        }
+        //UPLOAD FILE
+        if (capturedPhoto) {
+            const newForm = new FormData();
+            const fileName = Date.now() + user._id + ".jpeg";
+            newMess.img = "conversation/" + fileName;
+            newForm.append("type", "conversation/");
+            newForm.append("name", fileName);
+            newForm.append("file", dataURLtoFile(capturedPhoto, fileName));
+            try {
+                await axios.post("/upload", newForm);
+                setCapturedPhoto("");
+            } catch (error) {
+                console.log(error);
+            }
+
+            try {
+                const res = await axios.post("/messages", newMess);
+                socket.current.emit("addMessage", res.data);
+            } catch (error) {
+                console.log(error)
+            }
+            setOpenCapurePhoto(false)
+            setCapturedPhoto("");
+        }
+    }
+
+    //CLOSE CAPTURE MODAL
+    const handleCloseCaptureModal = () => {
+        setOpenCapurePhoto(false);
+        setCapturedPhoto("");
+    }
+
     return (
         <>
             <Topbar />
@@ -273,33 +327,58 @@ export const Messenger = () => {
                             }
 
                         </div>
-                        <form className="chatBoxBottom" onSubmit={handleMessSubmit}>
-                            <label htmlFor="file" className="icon">
-                                <PermMedia htmlColor="tomato" className="shareOptionIcon" />
-                                {/* <AttachFile htmlColor="blue" className="shareOptionIcon" /> */}
-                            </label>
-                            <input
-                                id="file"
-                                type="file"
-                                style={{ display: 'none' }}
-                                accept="image/*"
-                                onChange={(e) => setFile(e.target.files[0])}
-                            />
-                            <EmojiEmotions htmlColor="goldenrod" className="icon" onClick={() => setOpenEmoji(!openEmoji)} />
-                            {openEmoji &&
-                                <div className="emojiPicker" ref={emojiRef} >
-                                    <Picker onEmojiClick={handleChoseEmoji} />
-                                </div>
-                            }
-                            <input
-                                className="chatMessageInput"
-                                placeholder="write something..."
-                                ref={messageRef}
-                            />
-                            <button className="chatSubmitButton" type="submit">
-                                Send
-                            </button>
-                        </form>
+
+
+                        {(receiver || groupConversation) &&
+                            <form className="chatBoxBottom" onSubmit={handleMessSubmit}>
+
+                                {/* SEND PHOTO */}
+                                <label htmlFor="file" className="icon">
+                                    <PermMedia htmlColor="tomato" className="shareOptionIcon" />
+                                    {/* <AttachFile htmlColor="blue" className="shareOptionIcon" /> */}
+                                </label>
+                                <input
+                                    id="file"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    accept="image/*"
+                                    onChange={(e) => setFile(e.target.files[0])}
+                                />
+
+                                {/* SEND EMOJI */}
+                                <EmojiEmotions htmlColor="goldenrod" className="icon" onClick={() => setOpenEmoji(!openEmoji)} />
+                                {openEmoji &&
+                                    <div className="emojiPicker" ref={emojiRef} >
+                                        <Picker onEmojiClick={handleChoseEmoji} />
+                                    </div>
+                                }
+
+                                {/* CAPTURE PHOTO */}
+                                <CameraAlt className="icon" htmlColor="blue" onClick={() => setOpenCapurePhoto(true)} />
+                                {openCapturePhoto &&
+
+                                    <Modal open={openCapturePhoto} onClose={() => setOpenCapurePhoto(false)}>
+                                        <Webcam
+                                            webcamRef={webcamRef}
+                                            capturedPhoto={capturedPhoto}
+                                            onCapture={capture}
+                                            onHandleCloseCaptureModal={handleCloseCaptureModal}
+                                            onSendCapturePhoto={handleSendCapturePhoto}
+                                            onReCapture={() => setCapturedPhoto("")} />
+                                    </Modal>
+                                }
+
+                                {/* INPUT TEXT */}
+                                <input
+                                    className="chatMessageInput"
+                                    placeholder="write something..."
+                                    ref={messageRef}
+                                />
+                                <button className="chatSubmitButton" type="submit">
+                                    Send
+                                </button>
+                            </form>
+                        }
 
                         {
                             file &&

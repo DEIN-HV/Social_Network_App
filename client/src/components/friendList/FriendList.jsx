@@ -10,7 +10,7 @@ import { AddMemberItem } from "../addMemberItem/AddMemberItem";
 export const FriendList = ({ friendListType, onCheckFriend, checkedFriends }) => {
 
     const { user } = useContext(AuthContext);
-    const friendIdList = user.followings;
+    const friendIdList = user.friendIds;
     const [friendList, setFriendList] = useState([]);
     const [onlineUser, setOnlineUser] = useState([]);
 

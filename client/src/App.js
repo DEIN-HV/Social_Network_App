@@ -20,8 +20,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            {/* {user ? <Home /> : <Redirect to="/login" />} */}
-            <Webcam />
+            {user ? <Home /> : <Redirect to="/login" />}
           </Route>
           <Route path="/login">
             {user ? <Redirect to="/" /> : <Login />}

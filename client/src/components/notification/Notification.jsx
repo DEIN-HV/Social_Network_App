@@ -9,7 +9,6 @@ import { Clear } from "@mui/icons-material"
 export const Notification = ({ notification, option, index, onRemoveNotification }) => {
     const [postUser, setPostuser] = useState();
     const [isRead, setIsRead] = useState();
-    console.log(index + " " + notification.isRead + " " + isRead)
 
     useEffect(() => {
         getPostUserInfo();
@@ -63,8 +62,5 @@ export const Notification = ({ notification, option, index, onRemoveNotification
                 </div>
             </div>
         </div>
-
-
-
     )
 }

@@ -42,6 +42,7 @@
 
 .postWatchImg {
     width: 100vh;
+    max-height: 500px;
     object-fit: cover;
 }
 .bulletPagination {

@@ -28,6 +28,21 @@ export const UnFollow = (userId) => ({
     payload: userId,
 });
 
+export const AddFriend = (userId) => ({
+    type: "ADDFRIEND",
+    payload: userId,
+});
+
+export const RemoveFriend = (userId) => ({
+    type: "REMOVEFRIEND",
+    payload: userId,
+});
+
+export const RemoveFriendRequestNoti = (userId) => ({
+    type: "REMOVEFRIENDREQUESTNOTI",
+    payload: userId,
+});
+
 export const UpdateStart = () => ({
     type: "UPDATE_START",
 });

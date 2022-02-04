@@ -56,16 +56,6 @@
     margin-right: 15px;
 }
 
-.rightbarOnline {
-    width: 12px;
-    height: 12px;
-    position: absolute;
-    left: 30px;
-    border-radius: 50%;
-    border: 2px solid white;
-    background: rgb(79, 163, 0);
-}
-
 .rightbarProfileImg {
     width: 37px;
     height: 37px;

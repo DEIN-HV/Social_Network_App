@@ -1,35 +1,50 @@
-import { useCallback, useRef } from "react";
+import "./webcam.css"
+import { Modal } from "@material-ui/core";
+import { useCallback, useRef, useState } from "react";
 import WebcamCapture from "react-webcam";
+import { CameraAlt, Cancel, Send } from "@material-ui/icons";
+import { Replay } from "@mui/icons-material";
 
-export const Webcam = () => {
-    const webcamRef = useRef(null);
-
-    const capture = useCallback(
-        () => {
-            const imageSrc = webcamRef.current.getScreenshot();
-            console.log(imageSrc);
-        },
-        [webcamRef]
-    );
-
+export const Webcam = ({ webcamRef, onHandleCloseCaptureModal, capturedPhoto, onCapture, onSendCapturePhoto, onReCapture }) => {
     const videoConstraints = {
-        width: 580,
-        height: 520,
+        width: 500,
+        height: 400,
         facingMode: "user"
     };
 
     return (
-        <>
-            <div>WEBCAM</div>
-            <WebcamCapture
-                audio={false}
-                height={720}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                width={1280}
-                videoConstraints={videoConstraints}
-            />
-            <button onClick={capture}>Capture photo</button>
-        </>
+        <div className="modal cameraModal">
+
+
+            {/* CAMERA SCREEN     */}
+            <div className="cameraModalTop">
+                <Cancel className="cameraCancelIcon" onClick={onHandleCloseCaptureModal} />
+
+                {capturedPhoto ?
+                    <img className="cameraCapture" src={capturedPhoto} alt="" />
+                    :
+                    <WebcamCapture
+                        audio={false}
+                        ref={webcamRef}
+                        screenshotFormat="image/jpeg"
+                        videoConstraints={videoConstraints}
+                        className="cameraCapture"
+                    />
+                }
+
+            </div>
+
+            {/* BUTTON */}
+            <div className="cameraModalBottom">
+                <div className="captureButton">
+                    {capturedPhoto
+                        ? <Send className="iconCapture" onClick={onSendCapturePhoto} />
+                        : <CameraAlt className="iconCapture" htmlColor="blue" onClick={onCapture} />
+
+                    }
+                </div>
+                {capturedPhoto && <Replay className="reCaptureButton" onClick={onReCapture} />}
+            </div>
+        </div>
     );
 };

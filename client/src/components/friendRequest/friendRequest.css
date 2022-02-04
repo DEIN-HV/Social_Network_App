@@ -1,0 +1,81 @@
+.friendRequest {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    justify-content: space-between;
+}
+
+.notificationCancelIcon {
+    transform: scale(0.8);
+    opacity: 0;
+}
+
+.notificationCancelIconContent {
+    position: absolute;
+    padding: 5px;
+    border-radius: 25px;
+    right: 5px;
+}
+
+.notificationCancelIconContent:hover {
+    background-color: rgb(255, 255, 255);
+    border: solid 1px rgb(201, 201, 201);
+}
+
+.friendRequestLeft {
+    flex: 3;
+}
+
+.friendRequestText {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.friendRequestRight {
+    /* display: flex;
+    align-items: center; */
+    flex: 9;
+    position: relative;
+    /* width: 50px; */
+}
+
+.friendRequestButtons {
+    display: flex;
+}
+
+.friendRequetButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    padding: 0 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+
+.friendRequetButton.deny {
+    background: rgb(243, 243, 243);
+    color: rgb(88, 88, 88);
+}
+
+.friendRequetButton.deny:hover {
+    background: rgb(230, 230, 230);
+}
+
+.friendRequetButton.accept {
+    background: rgb(24 119 242);
+    color: white;
+}
+
+.friendRequetButton.accept:hover {
+    background: rgb(29 107 209);
+}
+
+.friendRequetBtnText {
+    font-weight: 400;
+}

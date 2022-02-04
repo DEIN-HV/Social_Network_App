@@ -2,6 +2,7 @@ import { Chat, Person, Search } from '@material-ui/icons';
 import React, { useContext, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/authContext/AuthContext';
+import { FriendRequestList } from '../friendRequestList/FriendRequestList';
 import { NotificationList } from '../notificationList/NotificationList';
 import { ProfileMenu } from '../profileMenu/ProfileMenu';
 import { ProfilePicture } from '../profilePicture/ProfilePicture';
@@ -56,10 +57,11 @@ export const Topbar = ({ searchValue, limit }) => {
                     <span className="topbarLink">Timeline</span>
                 </div>
                 <div className="topbarIcon">
-                    <div className="topbarIconItem">
-                        <Person />
-                        <span className="topbarIconBadge">1</span>
-                    </div>
+
+
+
+                    <FriendRequestList />
+
                     <Link className="iconLink" to="/messenger">
                         <div className="topbarIconItem">
                             <Chat />
